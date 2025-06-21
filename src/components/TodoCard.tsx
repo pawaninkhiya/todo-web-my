@@ -16,9 +16,10 @@ interface TodoCardProps {
     onEdit?: () => void;
     handleCloseEdit: () => void;
     isEditing: boolean;
+    onComplete?: (id: string) => void;
 }
 
-export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing }: TodoCardProps) => {
+export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, onComplete }: TodoCardProps) => {
     const { mutateAsync: updateTodo } = useUpdateTodoMutation(todo._id);
     const { user } = useAuth();
 
@@ -32,6 +33,7 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing }:
                 if (data?.todo && field === "status" && value === "completed") {
                     const audio = new Audio(completeSoun);
                     audio.play();
+                    onComplete?.(todo._id);
                     handleCloseEdit();
                 }
             } catch (error) {

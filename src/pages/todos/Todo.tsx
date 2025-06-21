@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { defaultConfig, FILTER_CONFIG, type FilterConfig } from "./components/filterConfig";
@@ -9,8 +9,20 @@ import type { AssignedUser, Todo } from "@interfaces/todosTypes";
 import AddNewTodo from "./components/AddNewTodo";
 import { Icons } from "@assets/icons";
 import { useAuth } from "@contexts/AuthProvider";
+import { useReward } from 'react-rewards';
 
 const Todo = () => {
+    const { reward: completeReward } = useReward('complete-reward', 'confetti', {
+        angle: 90,
+        position: 'absolute',
+        lifetime: 300,
+        decay: 0.9,
+        spread: 90,
+        startVelocity: 35,
+        elementCount: 100,
+        zIndex: 100,
+    });
+
     const { user } = useAuth();
     const [isEditId, setIsEdit] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +52,6 @@ const Todo = () => {
             editData?.assignedTo?.some((assign: AssignedUser) => assign.id === user?._id)
         );
 
-
     const currentConfig: FilterConfig =
         (teamId
             ? FILTER_CONFIG.find((f) => f.key === "teamId")
@@ -63,6 +74,10 @@ const Todo = () => {
             setIsEdit(null);
         }
     }, [isEditLoading, editData, isEditError, isEditId]);
+
+    const hasNoData = !isTodosLoading &&
+        !data?.FilterTodo?.length &&
+        !data?.completedTodo?.length;
 
     return (
         <div className="flex flex-col lg:flex-row w-full h-full overflow-hidden">
@@ -87,12 +102,21 @@ const Todo = () => {
                             </>
                         )}
                     </h2>
+                    <div id="complete-reward" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none" />
 
                     <div className="flex flex-col flex-1 overflow-hidden">
-                        <div className="flex-1 overflow-y-auto scrollbar-hide   pb-4">
+                        <div className="flex-1 overflow-y-auto scrollbar-hide pb-4">
                             {isTodosLoading ? (
                                 <div className="flex justify-center items-center h-full">
                                     <Icons.Spinner className="animate-spin text-3xl" />
+                                </div>
+                            ) : hasNoData ? (
+                                <div className="flex flex-col items-center justify-center h-full text-center">
+                                    <Icons.Empty className="text-5xl mb-4 opacity-60" />
+                                    <h3 className="text-xl font-medium mb-2">No todos found</h3>
+                                    <p className="text-sm opacity-75">
+                                        {teamId ? "Create your first todo for this team" : "No todos match the current filter"}
+                                    </p>
                                 </div>
                             ) : (
                                 <>
@@ -123,6 +147,7 @@ const Todo = () => {
                                                         handleEditTodo(todo._id);
                                                     }
                                                 }}
+                                                onComplete={completeReward}
                                             />
                                         );
                                     })}
@@ -154,6 +179,7 @@ const Todo = () => {
                                                         handleEditTodo(todo._id);
                                                     }
                                                 }}
+                                                onComplete={completeReward}
                                             />
                                         );
                                     })}
@@ -161,8 +187,9 @@ const Todo = () => {
                             )}
                         </div>
 
+                        {/* Always show AddNewTodo at bottom when teamId exists */}
                         {teamId && (
-                            <div className="sticky bottom-0">
+                            <div className="sticky bottom-0 pt-4">
                                 <AddNewTodo teamId={teamId} />
                             </div>
                         )}
@@ -179,7 +206,6 @@ const Todo = () => {
                     handleCloseEdit={handleCloseEdit}
                 />
             )}
-
         </div>
     );
 };

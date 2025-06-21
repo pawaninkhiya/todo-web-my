@@ -2,8 +2,10 @@ import { motion } from "framer-motion";
 import { Icons } from "@assets/icons";
 import { useState, useEffect } from "react";
 import { useCreateTodoMutation } from "@services/apis/todos/hooks";
+import { useAuth } from "@contexts/AuthProvider";
 
 const AddNewTodo = ({ teamId }: { teamId: string }) => {
+    const { user } = useAuth();
     const [newTodoText, setNewTodoText] = useState("");
     const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
     const { mutateAsync, isPending } = useCreateTodoMutation();
@@ -18,16 +20,27 @@ const AddNewTodo = ({ teamId }: { teamId: string }) => {
         if (!newTodoText.trim() || isPending) return;
 
         try {
-            await mutateAsync({
+            const payload: any = {
                 teamId,
                 title: newTodoText.trim(),
-            });
+            };
+
+            if (user?.role !== "admin") {
+                payload.assignedTo = [
+                    {
+                        id: user?._id,
+                        name: user?.name,
+                    },
+                ];
+            }
+            await mutateAsync(payload);
             setNewTodoText("");
             inputRef?.focus();
         } catch (error) {
             console.error("Failed to create todo:", error);
         }
     };
+
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
@@ -39,7 +52,6 @@ const AddNewTodo = ({ teamId }: { teamId: string }) => {
         <motion.div
             className="bg-white rounded shadow-sm p-3 flex items-start justify-between gap-3 hover:bg-gray-50 transition-colors cursor-pointer  border border-gray-200"
             whileHover={{ y: -1 }}
-            whileTap={{ scale: 0.98 }}
             layout
         >
             <div className="flex justify-between w-full gap-3 items-center">

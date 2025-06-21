@@ -20,6 +20,7 @@ import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { LuUserRoundPlus } from "react-icons/lu";
 import {  FiX, FiEdit } from "react-icons/fi";
 import { IoTicketOutline } from "react-icons/io5";
+import { TbMoodEmpty } from "react-icons/tb";
 export const Icons = {
     Today: LuSunMedium,
     Important: MdOutlineStarBorderPurple500,
@@ -43,5 +44,6 @@ export const Icons = {
     UserPlus: LuUserRoundPlus,
     Edit:FiEdit,
     Cancel:FiX,
-    Ticket: IoTicketOutline
+    Ticket: IoTicketOutline,
+    Empty: TbMoodEmpty
 };

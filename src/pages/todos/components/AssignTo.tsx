@@ -77,9 +77,7 @@ const AssignTo = ({ todo, refetch }: AssignToProps) => {
             <button
                 className="w-full shadow bg-white rounded p-4 hover:bg-gray-50 transition-colors text-left"
                 onClick={() => {
-                    if(user?.role==="admin"){
                         setIsOpen(true)
-                    }
                 }}
             >
                 <div className="flex items-center justify-start gap-2 text-xs text-gray-700">
