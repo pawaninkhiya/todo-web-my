@@ -122,7 +122,7 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
 
 
     return (
-        <div className="w-full max-w-sm xl:max-w-[450px] bg-[#F6F6F6] shadow-xl border-l border-gray-200 flex flex-col justify-between fixed top-0 right-0 h-full xl:static xl:h-auto xl:shadow-none z-50 transition-transform duration-300 ease-in-out">
+        <div className="w-full max-w-full xl:max-w-[450px] bg-[#F6F6F6] shadow-xl border-l border-gray-200 flex flex-col justify-between fixed top-0 right-0 h-full xl:static xl:h-auto xl:shadow-none z-50 transition-transform duration-300 ease-in-out">
             <div className="flex flex-col gap-2.5 p-4 overflow-y-auto scrollbar-hide">
                 <div className="flex justify-end">
                     <Icons.Cross
@@ -181,7 +181,7 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
 
             <div className="border-t-2 border-gray-200 p-4">
                 <div className="flex items-center justify-between mb-4">
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 pr-4">
                         Created by <span className="text-gray-700 font-semibold">{initialEditData?.createdBy?.userName}</span> at <span className="text-gray-500">{initialEditData?.createdAt && formatDate(initialEditData?.createdAt)}</span>
                     </div>
                     <button

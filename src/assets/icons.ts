@@ -18,9 +18,12 @@ import { MdOutlineAssignmentInd } from "react-icons/md";
 import { CgSpinner } from "react-icons/cg";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { LuUserRoundPlus } from "react-icons/lu";
-import {  FiX, FiEdit } from "react-icons/fi";
+import { FiX, FiEdit } from "react-icons/fi";
 import { IoTicketOutline } from "react-icons/io5";
 import { TbMoodEmpty } from "react-icons/tb";
+import { BsMenuButtonWideFill } from "react-icons/bs";
+
+
 export const Icons = {
     Today: LuSunMedium,
     Important: MdOutlineStarBorderPurple500,
@@ -40,10 +43,12 @@ export const Icons = {
     Delete: AiOutlineDelete,
     Assign: MdOutlineAssignmentInd,
     Spinner: CgSpinner,
-    Done:IoCheckmarkDoneSharp,
+    Done: IoCheckmarkDoneSharp,
     UserPlus: LuUserRoundPlus,
-    Edit:FiEdit,
-    Cancel:FiX,
+    Edit: FiEdit,
+    Cancel: FiX,
     Ticket: IoTicketOutline,
-    Empty: TbMoodEmpty
+    Empty: TbMoodEmpty,
+    MenuButtonWide: BsMenuButtonWideFill,
+    MenuButtonClose: RxCross2
 };
