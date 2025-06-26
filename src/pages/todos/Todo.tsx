@@ -81,7 +81,7 @@ const Todo = () => {
                 )}
 
                 <div className={`relative z-10 h-full flex flex-col ${currentConfig.textColor}`}>
-                    <h2 className="text-xl md:text-2xl font-semibold mb-4 flex items-center gap-3">
+                    <h2 className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-3">
                         {teamId ? (
                             data?.FilterTodo?.[0]?.teamId?.name ||
                             data?.completedTodo?.[0]?.teamId?.name ||

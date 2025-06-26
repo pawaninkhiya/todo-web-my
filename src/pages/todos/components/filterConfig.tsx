@@ -19,42 +19,42 @@ export const FILTER_CONFIG: FilterConfig[] = [
         style: { backgroundImage: `url(${sky})` },
         overlay: true,
         textColor: "text-white",
-        icon: <Icons.Today size={35} />,
+        icon: <Icons.Today className="text-xl md:text-2xl" />,
     },
     {
         key: "isImportant",
         heading: "Important Tasks",
         className: "bg-gradient-to-r from-red-100 to-red-300",
         textColor: "text-red-800",
-        icon: <Icons.Important size={35} />,
+        icon: <Icons.Important className="text-xl md:text-2xl" />,
     },
     {
         key: "inProgress",
         heading: "In Progress",
         className: "bg-gradient-to-r from-yellow-100 to-yellow-300",
         textColor: "text-yellow-800",
-        icon: <Icons.AllTasks size={35} />,
+        icon: <Icons.AllTasks className="text-xl md:text-2xl" />,
     },
     {
         key: "pending",
         heading: "Pending Tasks",
         className: "bg-gradient-to-r from-blue-100 to-blue-300",
         textColor: "text-blue-800",
-        icon: <Icons.User size={35} />,
+        icon: <Icons.User className="text-xl md:text-2xl" />,
     },
     {
         key: "assignToMe",
         heading: "Assigned to Me",
         className: "bg-gradient-to-r from-purple-100 to-purple-300",
         textColor: "text-purple-800",
-        icon: <Icons.Assign size={35} />,
+        icon: <Icons.Assign className="text-xl md:text-2xl" />,
     },
     {
         key: "completed",
         heading: "Completed",
         className: "bg-gradient-to-r from-emerald-100 to-emerald-300",
         textColor: "text-emerald-800",
-        icon: <Icons.Assign size={35} />,
+        icon: <Icons.Assign className="text-xl md:text-2xl" />,
     },
 
     {
@@ -62,7 +62,7 @@ export const FILTER_CONFIG: FilterConfig[] = [
         heading: "Team Tasks",
         className: "bg-gradient-to-r from-green-100 to-green-300",
         textColor: "text-green-800",
-        icon: <Icons.Users size={35} />,
+        icon: <Icons.Users className="text-xl md:text-2xl" />,
     },
 ];
 

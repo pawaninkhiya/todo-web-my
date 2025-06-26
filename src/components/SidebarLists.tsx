@@ -16,7 +16,7 @@ interface SidebarListsProps {
     toggleSidebar: () => void;
 }
 
-const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddInput,toggleSidebar }: SidebarListsProps) => {
+const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddInput, toggleSidebar }: SidebarListsProps) => {
     const { user } = useAuth();
     const { data } = useGetAllTeamsQuery();
     const { mutate: createTeam } = useCreateTeamMutation();
@@ -243,6 +243,7 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
                                                     teamName: item.name
                                                 }
                                             });
+                                            toggleSidebar();
                                         }}
                                         className={`px-3 py-2.5 rounded-md hover:bg-gray-200 transition-colors`}
                                     >

@@ -7,6 +7,7 @@ import { useAuth } from "@contexts/AuthProvider";
 import { Icons } from "@assets/icons";
 import { useUIContext } from "@contexts/UIProvider";
 import DeleteAlertModal from "@components/DeleteAlertModal";
+import PageLoader from "@components/PageLoader";
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Todo = lazy(() => import("./pages/todos/Todo"));
@@ -50,15 +51,15 @@ const App = () => {
             {/* Header */}
             {user && !isLoading && (
                 <header className="h-12 md:h-8 flex items-center px-4 justify-between">
-                    <h1 className="text-xs font-semibold text-gray-700 tracking-tight flex gap-2 items-center">
-                        <RiCalendarTodoLine fontSize={14} /> Chawla To Do
+                    <h1 className="text-[14px] font-semibold text-gray-700 tracking-tight flex gap-2 items-center">
+                        <RiCalendarTodoLine fontSize={20} /> Chawla To Do
                     </h1>
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-4">
                         <button
                             onClick={handleLogoutClick}
                             className="text-gray-700 sm:text-xs text-lg cursor-pointer"
                         >
-                            <Icons.Logout fontSize={24} />
+                            <Icons.Logout fontSize={22} />
                         </button>
                         <button
                             onClick={toggleSidebar}
@@ -79,7 +80,7 @@ const App = () => {
                             <Route
                                 path="/"
                                 element={
-                                    <Suspense fallback={<div className="p-4">Loading...</div>}>
+                                    <Suspense fallback={<PageLoader message="Loading Todo..." />}>
                                         <Todo />
                                     </Suspense>
                                 }
@@ -87,7 +88,7 @@ const App = () => {
                             <Route
                                 path="/tickets"
                                 element={
-                                    <Suspense fallback={<div className="p-4">Loading...</div>}>
+                                    <Suspense fallback={<PageLoader message="Loading Tickets..." />}>
                                         <Ticket />
                                     </Suspense>
                                 }
@@ -95,7 +96,7 @@ const App = () => {
                             <Route
                                 path="/tickets/:id"
                                 element={
-                                    <Suspense fallback={<div className="p-4">Loading Ticket Detail...</div>}>
+                                    <Suspense fallback={<PageLoader message="Loading Ticket Detail..." />}>
                                         <TicketDetail />
                                     </Suspense>
                                 }
@@ -105,7 +106,7 @@ const App = () => {
                             <Route
                                 path="/login"
                                 element={
-                                    <Suspense fallback={<div className="p-4">Loading Login...</div>}>
+                                    <Suspense fallback={<PageLoader message="Loading Login..." />}>
                                         <Login />
                                     </Suspense>
                                 }

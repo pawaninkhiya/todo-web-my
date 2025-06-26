@@ -112,7 +112,7 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
                             <Icons.Check size={16} className="text-gray-800 hidden group-hover:block" />
                         )}
                     </motion.div>
-                    <span className={`font-[400] line-clamp-1 uppercase text-gray-800 text-[13px] xl:text-sm ${isCompleted ? "line-through" : ""}`}>
+                    <span className={`font-[400] line-clamp-1 uppercase text-gray-800 text-[12px] xl:text-sm ${isCompleted ? "line-through" : ""}`}>
                         {todo.title}
                     </span>
                 </div>
@@ -123,7 +123,7 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
 
             <div className="flex items-center gap-3 text-sm text-gray-700">
                 <motion.span
-                    className={`${assignee.color} text-xs min-w-8 flex justify-center rounded-full font-medium uppercase px-2 py-2 text-white`}
+                    className={`${assignee.color} text-[10px] md:text-xs min-w-8 hidden md:flex justify-center rounded-full font-medium uppercase px-2 py-2 text-white`}
                     whileHover={{ scale: 1.05 }}
                 >
                     {assignee.initials}

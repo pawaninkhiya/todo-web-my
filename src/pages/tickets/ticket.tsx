@@ -84,7 +84,7 @@ const Ticket = () => {
                 </AnimatePresence>
                 <button
                     onClick={handleShowAllClick}
-                    className="px-4 py-2 bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                    className="px-4 py-1.5 bg-white rounded  cursor-pointer text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                 >
                     {showFilters ? "Reset Filters" : "Show Filters"}
                 </button>
