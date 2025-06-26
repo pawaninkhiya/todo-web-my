@@ -5,10 +5,9 @@ import { defaultConfig, FILTER_CONFIG, type FilterConfig } from "./components/fi
 import { TodoCard } from "../../components/TodoCard";
 import { EditPanel } from "@pages/todos/components/EditPanel";
 import { useGetAllTodosQuery, useGetSingleTodoQuery } from "@services/apis/todos/hooks";
-import type { AssignedUser, Todo } from "@interfaces/todosTypes";
+import type { Todo } from "@interfaces/todosTypes";
 import AddNewTodo from "./components/AddNewTodo";
 import { Icons } from "@assets/icons";
-import { useAuth } from "@contexts/AuthProvider";
 import { useReward } from 'react-rewards';
 
 const Todo = () => {
@@ -23,7 +22,6 @@ const Todo = () => {
         zIndex: 100,
     });
 
-    const { user } = useAuth();
     const [isEditId, setIsEdit] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const location = useLocation();
@@ -44,13 +42,6 @@ const Todo = () => {
     }, [teamId, filter]);
 
     const { data: editData, isLoading: isEditLoading, isError: isEditError, refetch } = useGetSingleTodoQuery(isEditId ?? "");
-    const canEdit =
-        isEditing &&
-        editData &&
-        (
-            user?.role === "admin" ||
-            editData?.assignedTo?.some((assign: AssignedUser) => assign.id === user?._id)
-        );
 
     const currentConfig: FilterConfig =
         (teamId
@@ -196,7 +187,7 @@ const Todo = () => {
                 </div>
             </div>
 
-            {canEdit && (
+            {isEditing && (
                 <EditPanel
                     isOpen={isEditing}
                     setIsOpen={handleCloseEdit}

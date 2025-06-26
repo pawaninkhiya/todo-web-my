@@ -31,7 +31,6 @@ const App = () => {
                 {user && !isLoading && <Sidebar />}
                 <main className="flex-1 bg-gray-50 overflow-auto scrollbar-hide rounded-tl-xl rounded-tr-xl sm:rounded-tr-none  border border-gray-200">
                     <Routes>
-                        {/* Protected Routes */}
                         <Route element={<ProtectedRoute isProtected={true} />}>
                             <Route
                                 path="/"
@@ -58,8 +57,6 @@ const App = () => {
                                 }
                             />
                         </Route>
-
-                        {/* Public Route */}
                         <Route element={<ProtectedRoute isProtected={false} />}>
                             <Route
                                 path="/login"
@@ -71,7 +68,6 @@ const App = () => {
                             />
                         </Route>
 
-                        {/* Catch-All */}
                         <Route
                             path="*"
                             element={

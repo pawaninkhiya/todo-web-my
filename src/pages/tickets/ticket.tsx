@@ -12,7 +12,7 @@ import { Icons } from "@assets/icons";
 
 const Ticket = () => {
     const { user } = useAuth();
-    const [filters, setFilters] = useState<GetAllTicketsParams>({});
+    const [filters, setFilters] = useState<GetAllTicketsParams>({}); // No default filters
     const [showFilters, setShowFilters] = useState(true);
 
     const debouncedName = useDebounceValue(filters.name ?? "", 500);
@@ -29,43 +29,35 @@ const Ticket = () => {
         value: string | number;
     };
 
-    const status: OptionType[] = [
-        { value: "", label: "All Status" },
+    const statusOptions: OptionType[] = [
+        { value: "", label: "All Statuses" },
         { value: "OPEN", label: "Open" },
         { value: "CLOSE", label: "Closed" },
     ];
 
-    const ticketTypes: OptionType[] = [
+    const ticketTypeOptions: OptionType[] = [
         { value: "", label: "All Ticket Types" },
         { value: "NORMAL", label: "Normal" },
         { value: "QUALITY", label: "Quality" },
     ];
 
-    const assignedTo: OptionType[] = [
+    const assigneeOptions: OptionType[] = [
         { value: "", label: "All Assignees" },
+        { value: user?._id ?? "", label: "Assigned to me" },
         ...(Customers?.customers ?? [])?.map((customer: any) => ({
-            value: customer.value,
+            value: customer._id,
             label: customer.name,
         })),
     ];
 
+
     const handleShowAllClick = () => {
         if (showFilters) {
+            setFilters({ tab: "raised" }); 
+        } else {
             setFilters({
-                assignedBy: "",
-                assignedTo: "",
-                name: "",
-                status: ""
-            })
-        }
-        else {
-            setFilters({
-                assignedBy: "",
-                assignedTo: "",
-                name: "",
-                status: "",
-                tab: "tagged"
-            })
+                tab: filters.tab || "raised" 
+            });
         }
         setShowFilters(!showFilters);
     };
@@ -94,7 +86,7 @@ const Ticket = () => {
                     onClick={handleShowAllClick}
                     className="px-4 py-2 bg-white rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                 >
-                    {showFilters ? "Show All" : "Show Filters"}
+                    {showFilters ? "Reset Filters" : "Show Filters"}
                 </button>
             </div>
 
@@ -107,48 +99,54 @@ const Ticket = () => {
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                     >
-                        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+                        <div className="bg-white rounded shadow p-4 mb-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                 <input
                                     type="text"
-                                    placeholder="Search tickets..."
+                                    placeholder="Search by description or ticket number..."
                                     value={filters.name ?? ""}
                                     onChange={(e) =>
                                         setFilters((prev) => ({ ...prev, name: e.target.value }))
                                     }
                                     className="w-full h-[42px] rounded-md border border-gray-300 bg-[#F9FAFB] px-3 text-[12px] text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-none"
                                 />
-
                                 <CustomSelect
                                     menuPortalTarget={document.body}
-                                    options={status}
-                                    value={status.find((option) => option.value === filters.status) || null}
+                                    options={statusOptions}
+                                    value={statusOptions.find((option) => option.value === (filters.status ?? "")) ?? null}
                                     onChange={(selected) =>
-                                        setFilters((prev) => ({ ...prev, status: selected?.value || "" }))
+                                        setFilters((prev) => ({
+                                            ...prev,
+                                            status: selected?.value as string ?? ""
+                                        }))
                                     }
                                     placeholder="Select Status"
                                     styles={customSelectStyles}
                                 />
-
                                 <CustomSelect
                                     menuPortalTarget={document.body}
-                                    options={ticketTypes}
-                                    value={ticketTypes.find((option) => option.value === filters.ticketType) || null}
+                                    options={ticketTypeOptions}
+                                    value={ticketTypeOptions.find((option) => option.value === (filters.ticketType ?? "")) ?? null}
                                     onChange={(selected) =>
-                                        setFilters((prev) => ({ ...prev, ticketType: selected?.value || "" }))
+                                        setFilters((prev) => ({
+                                            ...prev,
+                                            ticketType: selected?.value as string ?? ""
+                                        }))
                                     }
                                     placeholder="Select Ticket Type"
                                     styles={customSelectStyles}
                                 />
-
                                 <CustomSelect
                                     menuPortalTarget={document.body}
-                                    options={assignedTo}
-                                    value={assignedTo.find((option) => option.value === filters.assignedTo) || null}
+                                    options={assigneeOptions}
+                                    value={assigneeOptions.find((option) => option.value === (filters.assignedTo ?? "")) ?? null}
                                     onChange={(selected) =>
-                                        setFilters((prev) => ({ ...prev, assignedTo: selected?.value || "" }))
+                                        setFilters((prev) => ({
+                                            ...prev,
+                                            assignedTo: selected?.value as string ?? ""
+                                        }))
                                     }
-                                    placeholder="Select Assigned To"
+                                    placeholder="Select Assignee"
                                     styles={customSelectStyles}
                                 />
                             </div>
@@ -156,7 +154,6 @@ const Ticket = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
-
 
             {isPending ? (
                 <div className="flex justify-center items-center h-[400px]">
@@ -167,7 +164,7 @@ const Ticket = () => {
                     <Icons.Empty className="text-5xl mb-4 opacity-60" />
                     <h3 className="text-xl font-medium mb-2">No tickets found</h3>
                     <p className="text-sm opacity-75">
-                        Try adjusting your filters
+                        Try adjusting your search or filters
                     </p>
                 </div>
             ) : (
