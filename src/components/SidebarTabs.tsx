@@ -1,16 +1,16 @@
 import { Icons } from "@assets/icons";
 import { useGetTodoCountsQuery } from "@services/apis/todos/hooks";
 
-
 interface SidebarTabsProps {
     isMobile: boolean;
     isTablet: boolean;
     isDesktop: boolean;
     location: any;
     navigate: any;
+    toggleSidebar: () => void;
 }
 
-const SidebarTabs = ({ isMobile, isDesktop, navigate }: SidebarTabsProps) => {
+const SidebarTabs = ({ isMobile, isDesktop, navigate, toggleSidebar }: SidebarTabsProps) => {
     const { data: counts } = useGetTodoCountsQuery();
 
     const tabs = [
@@ -66,12 +66,15 @@ const SidebarTabs = ({ isMobile, isDesktop, navigate }: SidebarTabsProps) => {
                     {tabs.map((tab) => (
                         <li key={tab.name}>
                             <button
-                                onClick={() => navigate(`/`, {
-                                    state: { filter: tab.filter }
-                                })}
+                                onClick={() => {
+                                    navigate(`/`, {
+                                        state: { filter: tab.filter },
+                                    });
+                                    toggleSidebar();
+                                }}
                                 className={`w-full cursor-pointer  px-4 flex items-center justify-between  p-2.5 text-sm rounded hover:bg-gray-200 transition-colors 
                                 `}
-                                // ${activeTab === tab.name ? "bg-gray-200 text-gray-600 font-medium" : "text-gray-700 font-[400]"}`}
+                            // ${activeTab === tab.name ? "bg-gray-200 text-gray-600 font-medium" : "text-gray-700 font-[400]"}`}
                             >
                                 <div className="flex items-center">
                                     <span className="mr-3">{tab.icon}</span>
@@ -89,13 +92,17 @@ const SidebarTabs = ({ isMobile, isDesktop, navigate }: SidebarTabsProps) => {
             ) : (
                 <ul className="space-y-3 pt-4">
                     {tabs.map((tab) => (
-                        <li key={tab.name} className="relative group flex justify-center">
+                        <li
+                            key={tab.name}
+                            className="relative group flex justify-center">
                             <button
-                                onClick={() => navigate(`/`, {
-                                    state: { filter: tab.filter }
-                                })}
+                                onClick={() =>
+                                    navigate(`/`, {
+                                        state: { filter: tab.filter },
+                                    })
+                                }
                                 className={`px-3 py-2.5 rounded-md hover:bg-gray-200 transition-colors`}
-                                // ${activeTab === tab.name ? "bg-gray-200 text-blue-600" : "text-gray-700"}`}
+                            // ${activeTab === tab.name ? "bg-gray-200 text-blue-600" : "text-gray-700"}`}
                             >
                                 {tab.icon}
                             </button>
@@ -106,9 +113,8 @@ const SidebarTabs = ({ isMobile, isDesktop, navigate }: SidebarTabsProps) => {
                         </li>
                     ))}
                 </ul>
-            )
-            }
-        </div >
+            )}
+        </div>
     );
 };
 

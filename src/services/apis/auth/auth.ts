@@ -23,6 +23,11 @@ export const loginUser = async ({ identifier, password }: LoginPayloadRaw): Prom
     return response.data;
 };
 
+export const logoutUser = async (): Promise<any> => {
+    const response = await api.get(AUTH_ENDPOINTS.LOGOUT);
+    return response.data;
+};
+
 export const authUserProfile = async (id: string): Promise<LoginResponse> => {
     const response = await api.get(AUTH_ENDPOINTS.LOGGED_IN_USER(id));
     return response.data;

@@ -1,77 +1,55 @@
-// Feather Icons (fi)
-import { 
-  FiTag, FiCalendar, FiClock, FiFile, FiPackage,
-  FiDownload, FiArrowLeft, FiAlertTriangle,
-  FiCheckCircle, FiInfo, FiUser, FiHome,
-  FiChevronLeft, FiChevronRight, FiUsers,
-  FiPlus, FiX, FiEdit
-} from "react-icons/fi";
+import { BiHomeAlt2 } from "react-icons/bi";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { HiOutlineMenu } from "react-icons/hi";
 
-// Tabler Icons (tb)
-import { TbMoodEmpty, TbSun, TbStar } from "react-icons/tb";
-
-// Material Design (md)
-import { 
-  MdOutlineStarBorder, MdOutlineDateRange,
-  MdOutlineAssignmentInd 
-} from "react-icons/md";
-
-// Remix Icons (ri)
+import { LuSunMedium } from "react-icons/lu";
+import { MdOutlineStarBorderPurple500 } from "react-icons/md";
 import { RiLayoutHorizontalLine } from "react-icons/ri";
-
-// Grommet Icons (gr)
+import { HiOutlineUser } from "react-icons/hi";
+import { FiUsers } from "react-icons/fi";
+import { AiOutlinePlus } from "react-icons/ai";
+import { LuStar } from "react-icons/lu";
+import { FaCheck } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
+import { MdOutlineDateRange } from "react-icons/md";
 import { GrFormAttachment } from "react-icons/gr";
-
-// Ant Design Icons (ai)
-import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
-
-// Ionicons (io5)
-import { IoCheckmarkDoneSharp, IoTicketOutline } from "react-icons/io5";
-
-// Bootstrap Icons (bs)
-import { BsMenuButtonWideFill } from "react-icons/bs";
-
-// Spinner (cg)
+import { AiOutlineDelete } from "react-icons/ai";
+import { MdOutlineAssignmentInd } from "react-icons/md";
 import { CgSpinner } from "react-icons/cg";
+import { IoCheckmarkDoneSharp } from "react-icons/io5";
+import { LuUserRoundPlus } from "react-icons/lu";
+import { FiX, FiEdit } from "react-icons/fi";
+import { IoTicketOutline } from "react-icons/io5";
+import { TbMoodEmpty } from "react-icons/tb";
+import { BsMenuButtonWideFill } from "react-icons/bs";
+import { IoMdLogOut } from "react-icons/io";
 
 export const Icons = {
-  // TicketDetails Component Icons
-  Tag: FiTag,
-  Calendar: FiCalendar,
-  Clock: FiClock,
-  File: FiFile,
-  Package: FiPackage,
-  Download: FiDownload,
-  ArrowLeft: FiArrowLeft,
-  Error: FiAlertTriangle,
-  Warning: FiAlertTriangle,
-  Success: FiCheckCircle,
-  Info: FiInfo,
-  User: FiUser,
-  Spinner: CgSpinner,
-  Empty: TbMoodEmpty,
-
-  // Common UI Icons
-  Home: FiHome,
-  Users: FiUsers,
-  ChevronLeft: FiChevronLeft,
-  ChevronRight: FiChevronRight,
-  Plus: FiPlus,
-  Star: TbStar,
-  Check: IoCheckmarkDoneSharp,
-  Cross: FiX,
-  Date: MdOutlineDateRange,
-  Attachment: GrFormAttachment,
-  Delete: AiOutlineDelete,
-  Assign: MdOutlineAssignmentInd,
-  Done: IoCheckmarkDoneSharp,
-  Edit: FiEdit,
-  Ticket: IoTicketOutline,
-  MenuButtonWide: BsMenuButtonWideFill,
-
-  // Additional Useful Icons
-  Today: TbSun,
-  Important: MdOutlineStarBorder,
-  AllTasks: RiLayoutHorizontalLine,
-  UserPlus: AiOutlinePlus
+    Today: LuSunMedium,
+    Important: MdOutlineStarBorderPurple500,
+    AllTasks: RiLayoutHorizontalLine,
+    User: HiOutlineUser,
+    Home: BiHomeAlt2,
+    Users: FiUsers,
+    Menu: HiOutlineMenu,
+    ChevronLeft: FiChevronLeft,
+    ChevronRight: FiChevronRight,
+    Plus: AiOutlinePlus,
+    Star: LuStar,
+    Check: FaCheck,
+    Cross: RxCross2,
+    Date: MdOutlineDateRange,
+    Attachment: GrFormAttachment,
+    Delete: AiOutlineDelete,
+    Assign: MdOutlineAssignmentInd,
+    Spinner: CgSpinner,
+    Done: IoCheckmarkDoneSharp,
+    UserPlus: LuUserRoundPlus,
+    Edit: FiEdit,
+    Cancel: FiX,
+    Ticket: IoTicketOutline,
+    Empty: TbMoodEmpty,
+    MenuButtonWide: BsMenuButtonWideFill,
+    MenuButtonClose: RxCross2,
+    Logout: IoMdLogOut
 };

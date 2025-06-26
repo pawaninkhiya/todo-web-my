@@ -1,11 +1,12 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { RiCalendarTodoLine } from "react-icons/ri";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import Sidebar from "@components/Sidebar";
 import ProtectedRoute from "@routes/ProtectedRoute";
 import { useAuth } from "@contexts/AuthProvider";
 import { Icons } from "@assets/icons";
 import { useUIContext } from "@contexts/UIProvider";
+import DeleteAlertModal from "@components/DeleteAlertModal";
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Todo = lazy(() => import("./pages/todos/Todo"));
@@ -13,23 +14,66 @@ const Ticket = lazy(() => import("./pages/tickets/Ticket"));
 const TicketDetail = lazy(() => import("./pages/tickets/TicketDetail"));
 
 const App = () => {
-    const { isSidebarOpen, toggleSidebar } = useUIContext()
-    const { user, isLoading } = useAuth();
+    const { isSidebarOpen, toggleSidebar } = useUIContext();
+    const { user, isLoading, logout } = useAuth();
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+    const navigate = useNavigate();
+    const handleLogoutClick = () => {
+        setShowLogoutModal(true);
+    };
+
+    const handleConfirmLogout = async () => {
+        try {
+            await logout();
+            localStorage.removeItem("userId");
+            navigate("/login")
+            setShowLogoutModal(false);
+        } catch (error) {
+
+        }
+    };
+
     return (
         <div className="h-screen flex flex-col bg-[#F6F6F6]">
+            {/* Logout Confirmation Modal */}
+            <DeleteAlertModal
+                isOpen={showLogoutModal}
+                onClose={() => setShowLogoutModal(false)}
+                onConfirm={handleConfirmLogout}
+                title="Logout Confirmation"
+                description="Are you sure you want to logout?"
+                confirmText="Logout"
+                cancelText="Cancel"
+                maxWidth="max-w-sm"
+            />
+
+            {/* Header */}
             {user && !isLoading && (
                 <header className="h-12 md:h-8 flex items-center px-4 justify-between">
                     <h1 className="text-xs font-semibold text-gray-700 tracking-tight flex gap-2 items-center">
                         <RiCalendarTodoLine fontSize={14} /> Chawla To Do
                     </h1>
-                    <button onClick={toggleSidebar} className="text-gray-700 sm:hidden sm:text-xs text-lg">
-                        {!isSidebarOpen && <Icons.MenuButtonWide />}
-                    </button>
+                    <div className="flex items-center gap-6">
+                        <button
+                            onClick={handleLogoutClick}
+                            className="text-gray-700 sm:text-xs text-lg cursor-pointer"
+                        >
+                            <Icons.Logout fontSize={24} />
+                        </button>
+                        <button
+                            onClick={toggleSidebar}
+                            className="text-gray-700 sm:hidden sm:text-xs text-lg"
+                        >
+                            {!isSidebarOpen && <Icons.MenuButtonWide />}
+                        </button>
+                    </div>
                 </header>
             )}
+
+            {/* Main Content */}
             <div className="flex flex-1 overflow-hidden">
                 {user && !isLoading && <Sidebar />}
-                <main className="flex-1 bg-gray-50 overflow-auto scrollbar-hide rounded-tl-xl rounded-tr-xl sm:rounded-tr-none  border border-gray-200">
+                <main className="flex-1 bg-gray-50 overflow-auto scrollbar-hide rounded-tl-xl rounded-tr-xl sm:rounded-tr-none border border-gray-200">
                     <Routes>
                         <Route element={<ProtectedRoute isProtected={true} />}>
                             <Route
@@ -79,7 +123,6 @@ const App = () => {
                             }
                         />
                     </Routes>
-
                 </main>
             </div>
         </div>

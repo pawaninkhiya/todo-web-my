@@ -4,6 +4,7 @@ export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const AUTH_ENDPOINTS = {
     LOGIN: "/v1/rawMaterialApp/todologin",
+    LOGOUT: "/v1/rawMaterialApp/todologout",
     LOGGED_IN_USER: (id: string) => `/v1/rawMaterialApp/todoLoggedUserById/${id}`,
     USERS_LIST: `v1/ticketRaise/cacEmployeeSuggestions`
 };

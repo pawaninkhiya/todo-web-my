@@ -25,7 +25,7 @@ const Todo = () => {
     const [isEditId, setIsEdit] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const location = useLocation();
-    const { filter, teamId, teamName } = location.state || {};
+    const { filter = 'today', teamId, teamName } = location.state || {};
     const { data, isLoading: isTodosLoading } = useGetAllTodosQuery({
         filter: filter,
         teamId: teamId

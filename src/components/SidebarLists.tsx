@@ -13,9 +13,10 @@ interface SidebarListsProps {
     navigate: any;
     showAddInput: boolean;
     setShowAddInput: (value: boolean) => void;
+    toggleSidebar: () => void;
 }
 
-const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddInput }: SidebarListsProps) => {
+const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddInput,toggleSidebar }: SidebarListsProps) => {
     const { user } = useAuth();
     const { data } = useGetAllTeamsQuery();
     const { mutate: createTeam } = useCreateTeamMutation();
@@ -87,6 +88,7 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
                 teamName: team.name
             }
         });
+        toggleSidebar();
     };
 
     const handleEditTeam = (team: any) => {

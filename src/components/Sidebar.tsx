@@ -51,6 +51,7 @@ const Sidebar = () => {
                     isDesktop={isDesktop}
                     location={location}
                     navigate={navigate}
+                    toggleSidebar={toggleSidebar}
                 />
 
                 <div className="border border-gray-200"></div>
@@ -64,10 +65,11 @@ const Sidebar = () => {
                         navigate={navigate}
                         showAddInput={showAddInput}
                         setShowAddInput={setShowAddInput}
+                        toggleSidebar={toggleSidebar}
                     />
                 </div>
                 {
-                    // user?.role === "admin" &&
+                    user?.role === "admin" &&
                     <div className="">
                         <div className="border-t border-gray-300 px-2 bg-white h-24">
                             <div className="flex gap-2 items-center my-auto pt-3">
