@@ -71,7 +71,7 @@ const TicketDetails = () => {
                     <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 border-b border-gray-200">
                         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
                             <div>
-                                <h1 className="text-lg font-medium text-gray-800 flex items-center">
+                                <h1 className="text-sm font-medium text-gray-800 flex items-center">
                                     <FiTag className="mr-2 text-blue-600" />
                                     {ticket.ticketNumber}
                                 </h1>
@@ -102,7 +102,7 @@ const TicketDetails = () => {
                     </div>
 
                     {/* Content section */}
-                    <div className="p-6 space-y-6">
+                    <div className="p-4 md:p-6 space-y-6">
                         <section>
                             <h2 className="text-sm font-medium text-gray-800 mb-3 flex items-center">
                                 <FiFile className="mr-2 text-blue-600" />
@@ -150,8 +150,8 @@ const TicketDetails = () => {
                         {/* Part Details */}
                         {ticket.partCode && (
                             <section className="bg-gray-50 p-4 rounded border border-gray-200">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-                                    <FiPackage className="mr-2 text-blue-600" />
+                                <h3 className=" font-medium text-gray-800 mb-3 flex items-center">
+                                    <FiPackage className="mr-2 text-blue-600 text-sm" />
                                     Part Details
                                 </h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 text-sm">

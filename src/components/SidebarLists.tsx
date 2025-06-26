@@ -66,6 +66,7 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
     const handleDeleteClick = (teamId: string) => {
         setTeamToDelete(teamId);
         setDeleteModalOpen(true);
+        toggleSidebar();
     };
 
     const handleConfirmDelete = () => {
@@ -152,7 +153,7 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
                                         </div>
                                     ) : (
                                         <div className="flex items-center group">
-                                            <button
+                                            <div
                                                 onClick={() => handleTeamClick(item)}
                                                 className={`w-full cursor-pointer px-4 flex items-center py-2.5 text-sm rounded hover:bg-gray-200 transition-colors ${hoveredTeamId === item._id ? 'bg-gray-200' : ''
                                                     }`}
@@ -192,7 +193,7 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
                                                         )}
                                                     </div>
                                                 </div>
-                                            </button>
+                                            </div>
                                         </div>
                                     )}
                                 </li>

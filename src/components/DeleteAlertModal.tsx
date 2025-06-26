@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiCheck } from "react-icons/fi";
+import { createPortal } from "react-dom";
+import { useEffect, useState } from "react";
 
 interface DeleteAlertModalProps {
     isOpen: boolean;
@@ -22,14 +24,23 @@ const DeleteAlertModal = ({
     cancelText = "Cancel",
     maxWidth = "max-w-md"
 }: DeleteAlertModalProps) => {
-    return (
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+        return () => setMounted(false);
+    }, []);
+
+    if (!mounted) return null;
+
+    return createPortal(
         <AnimatePresence>
             {isOpen && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+                    className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 p-4"
                     onClick={onClose}
                 >
                     <motion.div
@@ -37,14 +48,11 @@ const DeleteAlertModal = ({
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -50, opacity: 0 }}
                         transition={{ type: "spring", damping: 25 }}
-                        className={`w-full  rounded bg-white p-6 shadow-xl min-h-[180px] ${maxWidth}`}
+                        className={`w-full ${maxWidth} rounded bg-white p-6 shadow-xl min-h-[180px] mx-auto`}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
-                                {/* <div className="rounded-full bg-red-100 p-2">
-                                    <FiAlertTriangle className="text-red-600" size={24} />
-                                </div> */}
                                 <div>
                                     <h3 className="text-lg font-medium text-gray-900">{title}</h3>
                                     <p className="mt-1 text-sm text-gray-500">{description}</p>
@@ -85,7 +93,8 @@ const DeleteAlertModal = ({
                     </motion.div>
                 </motion.div>
             )}
-        </AnimatePresence>
+        </AnimatePresence>,
+        document.body
     );
 };
 
