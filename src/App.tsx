@@ -9,7 +9,8 @@ import { useUIContext } from "@contexts/UIProvider";
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Todo = lazy(() => import("./pages/todos/Todo"));
-// const Ticket = lazy(() => import("./pages/todos/Todo"));
+const Ticket = lazy(() => import("./pages/tickets/Ticket"));
+const TicketDetail = lazy(() => import("./pages/tickets/TicketDetail"));
 
 const App = () => {
     const { isSidebarOpen, toggleSidebar } = useUIContext()
@@ -30,17 +31,35 @@ const App = () => {
                 {user && !isLoading && <Sidebar />}
                 <main className="flex-1 bg-gray-50 overflow-auto scrollbar-hide rounded-tl-xl rounded-tr-xl sm:rounded-tr-none  border border-gray-200">
                     <Routes>
+                        {/* Protected Routes */}
                         <Route element={<ProtectedRoute isProtected={true} />}>
                             <Route
                                 path="/"
                                 element={
-                                    <Suspense fallback={<div className="p-4">Loading Todo...</div>}>
+                                    <Suspense fallback={<div className="p-4">Loading...</div>}>
                                         <Todo />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/tickets"
+                                element={
+                                    <Suspense fallback={<div className="p-4">Loading...</div>}>
+                                        <Ticket />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/tickets/:id"
+                                element={
+                                    <Suspense fallback={<div className="p-4">Loading Ticket Detail...</div>}>
+                                        <TicketDetail />
                                     </Suspense>
                                 }
                             />
                         </Route>
 
+                        {/* Public Route */}
                         <Route element={<ProtectedRoute isProtected={false} />}>
                             <Route
                                 path="/login"
@@ -52,6 +71,7 @@ const App = () => {
                             />
                         </Route>
 
+                        {/* Catch-All */}
                         <Route
                             path="*"
                             element={

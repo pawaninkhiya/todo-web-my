@@ -67,7 +67,7 @@ const Sidebar = () => {
                     />
                 </div>
                 {
-                    user?.role === "admin" &&
+                    // user?.role === "admin" &&
                     <div className="">
                         <div className="border-t border-gray-300 px-2 bg-white h-24">
                             <div className="flex gap-2 items-center my-auto pt-3">
@@ -79,7 +79,9 @@ const Sidebar = () => {
                                     </span>
                                     <span>Add List</span>
                                 </button>
-                                <button className="flex-1 cursor-pointer px-4 flex items-center py-2.5 text-xs rounded hover:bg-gray-200 transition-colors">
+                                <button
+                                    onClick={() => navigate("/tickets")}
+                                    className="flex-1 cursor-pointer px-4 flex items-center py-2.5 text-xs rounded hover:bg-gray-200 transition-colors">
                                     <span className="mr-3 text-purple-500"><Icons.Ticket /></span>
                                     <span>Ticket</span>
                                 </button>
