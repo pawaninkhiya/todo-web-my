@@ -113,7 +113,7 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
                         )}
                     </motion.div>
                     <span className={`font-[400] line-clamp-1 uppercase text-gray-800 text-[12px] xl:text-sm ${isCompleted ? "line-through" : ""}`}>
-                        {todo.title}
+                        {`${todo.todoCount} : ${todo.title}`}
                     </span>
                 </div>
                 <span className="text-[10px] sm:text-xs text-gray-500 pl-7">

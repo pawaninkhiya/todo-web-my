@@ -27,6 +27,3 @@ export const FilterTicketTabs = ({ activeTab, onTabChange }:any) => {
     );
 };
 
-// Add this to your global CSS to hide scrollbar but keep functionality
-// .hide-scrollbar {
-//   -ms-overflow-style

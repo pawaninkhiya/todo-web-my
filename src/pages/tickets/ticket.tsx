@@ -12,7 +12,7 @@ import { Icons } from "@assets/icons";
 
 const Ticket = () => {
     const { user } = useAuth();
-    const [filters, setFilters] = useState<GetAllTicketsParams>({}); // No default filters
+    const [filters, setFilters] = useState<GetAllTicketsParams>({});
     const [showFilters, setShowFilters] = useState(true);
 
     const debouncedName = useDebounceValue(filters.name ?? "", 500);
@@ -84,7 +84,7 @@ const Ticket = () => {
                 </AnimatePresence>
                 <button
                     onClick={handleShowAllClick}
-                    className="px-4 py-1.5 bg-white rounded  cursor-pointer text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                    className="px-4 py-1.5 bg-white rounded  cursor-pointer text-xs md:text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                 >
                     {showFilters ? "Reset Filters" : "Show Filters"}
                 </button>
@@ -161,9 +161,9 @@ const Ticket = () => {
                 </div>
             ) : data?.result.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-[400px] text-center">
-                    <Icons.Empty className="text-5xl mb-4 opacity-60" />
-                    <h3 className="text-xl font-medium mb-2">No tickets found</h3>
-                    <p className="text-sm opacity-75">
+                    <Icons.Empty className="text-3xl md:text-4xl mb-4 opacity-60" />
+                    <h3 className="text-sm md:text-lg font-medium mb-2">No tickets found</h3>
+                    <p className="text-xs md:text-sm opacity-75">
                         Try adjusting your search or filters
                     </p>
                 </div>

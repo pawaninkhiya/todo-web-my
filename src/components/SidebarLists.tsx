@@ -55,6 +55,7 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
                                         teamName: newTeam.data.name
                                     }
                                 });
+                                toggleSidebar();
                             }
                         }
                     }

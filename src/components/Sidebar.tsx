@@ -82,7 +82,7 @@ const Sidebar = () => {
                                     <span>Add List</span>
                                 </button>
                                 <button
-                                    onClick={() => navigate("/tickets")}
+                                    onClick={() => { navigate("/tickets"), toggleSidebar() }}
                                     className="flex-1 cursor-pointer px-4 flex items-center py-2.5 text-xs rounded hover:bg-gray-200 transition-colors">
                                     <span className="mr-3 text-purple-500"><Icons.Ticket /></span>
                                     <span>Ticket</span>

@@ -13,11 +13,14 @@ interface AuthContextType {
         error: Error | null;
     };
     logout: () => Promise<void>;
+    search: string;
+    setSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const [search, setSearch] = useState<string>("");
     const [user, setUser] = useState<null | UserData>(null);
     const navigate = useNavigate();
 
@@ -81,13 +84,17 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             error: loginMutation.error ?? null,
         },
         logout: () => logoutMutation.mutateAsync(),
+        search,
+        setSearch
     }), [
         user,
         isUserLoading,
         loginMutation.mutateAsync,
         loginMutation.isPending,
         loginMutation.error,
-        logoutMutation.mutateAsync
+        logoutMutation.mutateAsync,
+        search,
+        setSearch
     ]);
 
     return (

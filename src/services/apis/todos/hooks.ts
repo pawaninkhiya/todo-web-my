@@ -17,6 +17,7 @@ export interface GetTodosParams {
     filter?: string;
     teamId?: string;
     teamFilter?: string;
+    search?: string;
 }
 
 //  Get All Todos

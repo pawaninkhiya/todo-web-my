@@ -8,7 +8,7 @@ interface SidebarHeaderProps {
 }
 
 const SidebarHeader = ({ isMobile, isTablet, isDesktop }: SidebarHeaderProps) => {
-    const { user } = useAuth();
+    const { user, search, setSearch } = useAuth();
     return (
         <div className="p-4 sm:p-2 lg:px-4 pt-4">
             <div className={`flex items-center ${isTablet ? "flex-col gap-2" : "gap-2"}`}>
@@ -26,6 +26,10 @@ const SidebarHeader = ({ isMobile, isTablet, isDesktop }: SidebarHeaderProps) =>
                 <div className="mt-4 relative w-full">
                     <input
                         type="text"
+                        value={search}
+                        onChange={(e) =>
+                            setSearch(e.target.value)
+                        }
                         placeholder="Search..."
                         className="w-full pr-10 pl-4 py-2 rounded-md border border-gray-300 bg-white text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00A300] transition"
                     />

@@ -35,9 +35,9 @@ const TicketDetails = () => {
 
     if (error) return (
         <div className="flex flex-col items-center justify-center h-[400px] text-center">
-            <Icons.Empty className="text-5xl mb-4 opacity-60" />
-            <h3 className="text-xl font-medium mb-2">Error loading ticket</h3>
-            <p className="text-sm opacity-75">
+            <Icons.Empty className="text-4xl md:text-4xl mb-4 opacity-60" />
+            <h3 className="md:text-lg font-medium mb-2">Error loading ticket</h3>
+            <p className="text-xs md:text-sm opacity-7">
                 Please try again later
             </p>
         </div>
@@ -46,8 +46,8 @@ const TicketDetails = () => {
     if (!ticket) return (
         <div className="flex flex-col items-center justify-center h-[400px] text-center">
             <Icons.Empty className="text-5xl mb-4 opacity-60" />
-            <h3 className="text-xl font-medium mb-2">Ticket not found</h3>
-            <p className="text-sm opacity-75">
+            <h3 className="md:text-lg font-medium mb-2">Ticket not found</h3>
+            <p className="text-xs md:text-sm opacity-75">
                 The requested ticket doesn't exist
             </p>
         </div>

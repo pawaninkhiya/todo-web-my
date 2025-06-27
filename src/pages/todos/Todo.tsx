@@ -9,8 +9,12 @@ import type { Todo } from "@interfaces/todosTypes";
 import AddNewTodo from "./components/AddNewTodo";
 import { Icons } from "@assets/icons";
 import { useReward } from 'react-rewards';
-
+import { useAuth } from "@contexts/AuthProvider";
+import { useDebounceValue } from "@hooks/useDebounceValue";
+import { motion } from "framer-motion"
 const Todo = () => {
+    const { search } = useAuth();
+    const debounceSearch = useDebounceValue(search, 500);
     const { reward: completeReward } = useReward('complete-reward', 'confetti', {
         angle: 90,
         position: 'absolute',
@@ -28,7 +32,8 @@ const Todo = () => {
     const { filter = 'today', teamId, teamName } = location.state || {};
     const { data, isLoading: isTodosLoading } = useGetAllTodosQuery({
         filter: filter,
-        teamId: teamId
+        teamId: teamId,
+        search: debounceSearch
     });
 
     const handleCloseEdit = () => {
@@ -81,18 +86,34 @@ const Todo = () => {
                 )}
 
                 <div className={`relative z-10 h-full flex flex-col ${currentConfig.textColor}`}>
-                    <h2 className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-3">
-                        {teamId ? (
-                            data?.FilterTodo?.[0]?.teamId?.name ||
-                            data?.completedTodo?.[0]?.teamId?.name ||
-                            teamName
+                    <motion.h2
+                        className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-3"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.3 }}
+                        key={debounceSearch || teamId || currentConfig.heading}
+                    >
+                        {debounceSearch && !teamId ? (
+                            <>
+                                <Icons.Todo />
+                                All Todos
+                            </>
+                        ) : teamId ? (
+                            <>
+                                <Icons.Users /> 
+                                {data?.FilterTodo?.[0]?.teamId?.name ||
+                                    data?.completedTodo?.[0]?.teamId?.name ||
+                                    teamName}
+                            </>
                         ) : (
                             <>
                                 {currentConfig.icon}
                                 {currentConfig.heading}
                             </>
                         )}
-                    </h2>
+                    </motion.h2>
+
                     <div id="complete-reward" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none" />
 
                     <div className="flex flex-col flex-1 overflow-hidden">
@@ -103,9 +124,9 @@ const Todo = () => {
                                 </div>
                             ) : hasNoData ? (
                                 <div className="flex flex-col items-center justify-center h-full text-center">
-                                    <Icons.Empty className="text-5xl mb-4 opacity-60" />
-                                    <h3 className="text-xl font-medium mb-2">No todos found</h3>
-                                    <p className="text-sm opacity-75">
+                                    <Icons.Empty className="text-3xl md:text-4xl mb-4 opacity-60" />
+                                    <h3 className="text-sm md:text-lg font-medium mb-2">No todos found</h3>
+                                    <p className="text-xs md:text-sm opacity-75">
                                         {teamId ? "Create your first todo for this team" : "No todos match the current filter"}
                                     </p>
                                 </div>
