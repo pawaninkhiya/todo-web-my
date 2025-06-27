@@ -23,7 +23,8 @@ import { IoTicketOutline } from "react-icons/io5";
 import { TbMoodEmpty } from "react-icons/tb";
 import { BsMenuButtonWideFill } from "react-icons/bs";
 import { IoMdLogOut } from "react-icons/io";
-
+import { ImSearch } from "react-icons/im";
+import { RiCalendarTodoLine } from "react-icons/ri";
 export const Icons = {
     Today: LuSunMedium,
     Important: MdOutlineStarBorderPurple500,
@@ -51,5 +52,7 @@ export const Icons = {
     Empty: TbMoodEmpty,
     MenuButtonWide: BsMenuButtonWideFill,
     MenuButtonClose: RxCross2,
-    Logout: IoMdLogOut
+    Logout: IoMdLogOut,
+    Search: ImSearch,
+    Todo: RiCalendarTodoLine
 };
