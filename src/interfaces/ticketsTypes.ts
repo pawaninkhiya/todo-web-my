@@ -2,11 +2,15 @@ export interface GetAllTicketsParams {
     name?: string;
     tab?: string;
     ticketType?: string;
-    assignedTo?: string;
-    assignedBy?: string;
+    assignedTo?: string | string[];
+    assignedBy?: string | string[];
+    raisedBy?: string | string[];
+    priority?: string;
+    status?: string;
     page?: number;
     limit?: number;
-    status?: string;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export interface Ticket {

@@ -54,8 +54,8 @@ const DeleteAlertModal = ({
                         <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
                                 <div>
-                                    <h3 className="text-lg font-medium text-gray-900">{title}</h3>
-                                    <p className="mt-1 text-sm text-gray-500">{description}</p>
+                                    <h3 className="text-sm md:text-lg font-medium text-gray-900">{title}</h3>
+                                    <p className="mt-1 text-xs md:text-sm text-gray-500">{description}</p>
                                 </div>
                             </div>
                             <button
