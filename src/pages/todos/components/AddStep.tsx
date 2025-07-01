@@ -15,11 +15,11 @@ const AddStep: React.FC<AddStepProps> = memo(({ initialEditData, refetch }) => {
     const { mutateAsync: addStepMutation } = useAddStepToTodoMutation();
     const { mutateAsync: updateStepMutation } = useUpdateStepToTodoMutation();
     const { mutateAsync: deleteStepMutation } = useDeleteStepFromTodoMutation();
-  
+
     const [isAddingStep, setIsAddingStep] = useState(false);
     const [stepTitle, setStepTitle] = useState('');
     const [editingStep, setEditingStep] = useState<Step | null>(null);
-    
+
 
     const resetForm = useCallback(() => {
         setStepTitle('');
@@ -149,20 +149,23 @@ const AddStep: React.FC<AddStepProps> = memo(({ initialEditData, refetch }) => {
                         <button
                             type="button"
                             aria-label={step.isCompleted ? 'Mark step incomplete' : 'Mark step complete'}
-                            className={`border-2 rounded-full h-4 w-4 flex items-center justify-center cursor-pointer 
+                            className={`border-2 rounded-full h-4 w-4 min-w-4 flex items-center justify-center cursor-pointer 
                                 ${step.isCompleted ? 'border-green-500 bg-green-100 ' : 'border-gray-300 hover:border-gray-500 '}`}
                             onClick={() => toggleStepCompletion(step)}
                         >
                             {step.isCompleted && <Icons.Check size={10} className="text-green-500" />}
                         </button>
-                        <span
-                            className={`text-xs flex-1 ${step.isCompleted ? 'text-gray-500 line-through' : 'text-gray-700'}`}
-                            onClick={() => startEditing(step)}
-                        >
-                            {step.title}
-                        </span>
+                        <div className="flex flex-col">
+                            <span
+                                className={`text-xs flex-1 ${step.isCompleted ? 'text-gray-500 line-through' : 'text-gray-700'}`}
+                                onClick={() => startEditing(step)}
+                            >
+                                {step.title}
+                            </span>
+                            <span className='text-[10px] text-gray-400'>Created By {step?.createdBy?.userName}</span>
+                        </div>
                         <button
-                            className="p-1 hover:bg-red-200 rounded-full cursor-pointer"
+                            className="p-1 hover:bg-red-200 rounded-full cursor-pointer ml-auto"
                             onClick={() => handleDeleteStep(step._id)}
                             aria-label="Delete step"
                         >

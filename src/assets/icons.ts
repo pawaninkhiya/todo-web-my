@@ -25,6 +25,10 @@ import { BsMenuButtonWideFill } from "react-icons/bs";
 import { IoMdLogOut } from "react-icons/io";
 import { ImSearch } from "react-icons/im";
 import { RiCalendarTodoLine } from "react-icons/ri";
+import { FiChevronsLeft } from "react-icons/fi";
+import { FiChevronsRight } from "react-icons/fi";
+import { FaChevronDown } from "react-icons/fa6";
+import { FaChevronUp } from "react-icons/fa6";
 export const Icons = {
     Today: LuSunMedium,
     Important: MdOutlineStarBorderPurple500,
@@ -54,5 +58,9 @@ export const Icons = {
     MenuButtonClose: RxCross2,
     Logout: IoMdLogOut,
     Search: ImSearch,
-    Todo: RiCalendarTodoLine
+    Todo: RiCalendarTodoLine,
+    ChevronsLeft: FiChevronsLeft,
+    ChevronsRight: FiChevronsRight,
+    ChevronDown: FaChevronDown,
+    ChevronUp: FaChevronUp
 };

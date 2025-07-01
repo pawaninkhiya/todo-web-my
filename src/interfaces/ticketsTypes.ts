@@ -1,16 +1,14 @@
 export interface GetAllTicketsParams {
     name?: string;
-    tab?: string;
+    // tab?: string;
     ticketType?: string;
-    assignedTo?: string | string[];
-    assignedBy?: string | string[];
-    raisedBy?: string | string[];
+    // assignedTo?: string | string[];
+    // assignedBy?: string | string[];
+    // raisedBy?: string | string[];
     priority?: string;
     status?: string;
     page?: number;
     limit?: number;
-    startDate?: Date;
-    endDate?: Date;
 }
 
 export interface Ticket {
@@ -48,6 +46,7 @@ export interface Ticket {
 }
 
 interface Count {
+    allCount:number,
     raisedCount: number;
     receivedCount: number;
     taggedCount: number;

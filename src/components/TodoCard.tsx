@@ -72,7 +72,6 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
                 return;
             }
 
-
             updateField("isImportant", !todo.isImportant);
         },
         [todo, user, updateField]
@@ -80,14 +79,20 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
 
     const isCompleted = todo.status === "completed";
     const statusColor = {
-        pending: "border-gray-800",
-        inProgress: "border-blue-500",
+        pending: "border-gray-900 hover:border-gray-900",
+        inProgress: "border-blue-500 hover:border-blue-600",
         completed: "bg-green-500 border-green-500",
-    }[todo.status] || "border-gray-800";
+    }[todo.status] || "border-gray-300 hover:border-gray-400";
+
+    const cardColor = {
+        pending: "bg-white",
+        inProgress: "bg-blue-50",
+        completed: "bg-green-50",
+    }[todo.status] || "bg-white";
 
     return (
         <motion.div
-            className={`bg-white rounded shadow-md my-3 p-4 flex items-start justify-between gap-4 hover:bg-gray-50 transition-colors cursor-pointer ${isCompleted ? "opacity-70" : ""}`}
+            className={`${cardColor} rounded shadow-md my-3 p-4 flex items-start justify-between gap-4 hover:bg-opacity-80 transition-colors cursor-pointer ${isCompleted ? "opacity-70" : ""}`}
             whileHover={{ y: -2 }}
             layout
             onClick={() => {
@@ -98,7 +103,7 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
             <div className="flex flex-col gap-1 text-sm text-gray-700">
                 <div className="flex items-center gap-2">
                     <motion.div
-                        className={`border-2 rounded-full h-6 w-6 min-w-6 flex items-center justify-center group ${statusColor}`}
+                        className={`border-2 rounded-full h-6 w-6 min-w-6 flex items-center justify-center group transition-colors ${statusColor}`}
                         onClick={(e) => {
                             if (isEditing) handleCloseEdit();
                             else handleToggleComplete(e);
@@ -109,7 +114,11 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
                         {isCompleted ? (
                             <Icons.Check size={14} className="text-white" />
                         ) : (
-                            <Icons.Check size={16} className="text-gray-800 hidden group-hover:block" />
+                            <Icons.Check
+                                size={16}
+                                className={`opacity-0 group-hover:opacity-100 transition-opacity ${todo.status === "pending" ? "text-gray-900" : "text-blue-500"
+                                    }`}
+                            />
                         )}
                     </motion.div>
                     <span className={`font-[400] line-clamp-1 uppercase text-gray-800 text-[12px] xl:text-sm ${isCompleted ? "line-through" : ""}`}>

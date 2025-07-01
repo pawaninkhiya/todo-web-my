@@ -149,38 +149,60 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
                     </div>
 
                     <StatusTabs status={status} onChange={handleStatusChange} />
-
-                    <div className="w-full shadow bg-white rounded p-3 flex flex-col ">
+                    <div className="w-full shadow bg-white rounded p-3 flex flex-col">
                         <div className="flex items-start justify-between gap-4">
                             <motion.button
-                                className={`border-2 cursor-pointer rounded-full h-6 w-6 flex items-center justify-center group ${status === "completed" ? "bg-green-500 border-green-500" : "border-gray-800"
+                                className={`border-2 cursor-pointer h-6 w-6 flex rounded-full items-center justify-center group transition-colors ${status === "completed"
+                                        ? "bg-green-500 border-green-500"
+                                        : status === "inProgress"
+                                            ? "border-blue-500"
+                                            : "border-gray-900"
                                     }`}
                                 whileHover={{ scale: 1.1 }}
-                                // whileTap={{ scale: 0.9 }}
+                                whileTap={{ scale: 0.9 }}
                                 aria-label="Toggle completion"
-                                onClick={() => handleStatusChange(status === "completed" ? "pending" : "completed")}
+                                onClick={() => handleStatusChange(
+                                    status === "completed" ? "pending" :
+                                        status === "pending" ? "inProgress" : "completed"
+                                )}
                             >
-                                {status === "completed" && <Icons.Check size={16} className="text-white" />}
+                                {status === "completed" ? (
+                                    <Icons.Check size={14} className="text-white" />
+                                ) : status === "inProgress" ? (
+                                    <Icons.Check size={14} className="text-blue-500" />
+                                ) : (
+                                    <Icons.Check
+                                        size={16}
+                                        className="text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    />
+                                )}
                             </motion.button>
 
                             <textarea
                                 value={title}
                                 onChange={(e) => handleTitleChange(e.target.value)}
                                 ref={textareaRef}
-                                className="flex-1 font-semibold resize-none text-[13px] xl:text-[16px] text-gray-900 bg-transparent focus:outline-none focus:ring-0 focus:border-none p-0 leading-snug "
+                                className={`flex-1 font-medium resize-none text-sm xl:text-base text-gray-800 bg-transparent focus:outline-none focus:ring-0 p-0 leading-snug ${status === "completed" ? "line-through text-gray-400" : ""
+                                    }`}
                                 aria-label="Task title"
                             />
 
-                            <button
+                            <motion.button
                                 className="w-6 h-6 cursor-pointer"
                                 aria-label="Star task"
                                 onClick={toggleImportance}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
                             >
                                 <Icons.Star
                                     size={24}
-                                    className={isImportant ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}
+                                    className={
+                                        isImportant
+                                            ? "text-yellow-500 fill-yellow-500"
+                                            : "text-gray-300 hover:text-gray-400"
+                                    }
                                 />
-                            </button>
+                            </motion.button>
                         </div>
                         <AddStep
                             refetch={refetch}
