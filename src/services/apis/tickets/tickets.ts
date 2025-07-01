@@ -5,17 +5,11 @@ import { TICKET_ENDPOINTS } from "@services/basePaths";
 export const getAllTickets = async (employeeId: string, params: GetAllTicketsParams): Promise<ApiResponse> => {
     const payload: Record<string, any> = {};
     if (params.name) payload.name = params.name;
-    if (params.tab) payload.tab = params.tab;
     if (params.ticketType) payload.ticketType = params.ticketType;
-    if (params.assignedTo) payload.assignedTo = params.assignedTo;
-    if (params.assignedBy) payload.assignedBy = params.assignedBy;
-    if (params.raisedBy) payload.raisedBy = params.raisedBy;
     if (params.priority) payload.priority = params.priority;
     if (params.status) payload.status = params.status;
     if (params.page) payload.page = params.page;
     if (params.limit) payload.limit = params.limit;
-    if (params.startDate) payload.startDate = params.startDate.toISOString();
-    if (params.endDate) payload.endDate = params.endDate.toISOString();
 
     const response = await api.post(TICKET_ENDPOINTS.GET_ALL_TICKETS_BY_EMPLOYEE(employeeId), payload);
     return response.data;
