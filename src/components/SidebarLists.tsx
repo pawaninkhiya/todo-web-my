@@ -1,6 +1,6 @@
 import { useCreateTeamMutation, useDeleteTeamMutation, useGetAllTeamsQuery, useUpdateTeamMutation } from "@services/apis/teams/hooks";
 import { HiOutlineMenu } from "react-icons/hi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icons } from "@assets/icons";
 import DeleteAlertModal from "./DeleteAlertModal";
 import { useAuth } from "@contexts/AuthProvider";
@@ -17,8 +17,8 @@ interface SidebarListsProps {
 }
 
 const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddInput, toggleSidebar }: SidebarListsProps) => {
-    const { user } = useAuth();
-    const { data } = useGetAllTeamsQuery();
+    const { user, socket } = useAuth();
+    const { data, refetch } = useGetAllTeamsQuery();
     const { mutate: createTeam } = useCreateTeamMutation();
     const { mutate: updateTeam } = useUpdateTeamMutation();
     const { mutate: deleteTeam } = useDeleteTeamMutation();
@@ -98,6 +98,19 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
         setEditingTeamId(team._id);
         setShowAddInput(true);
     };
+
+    useEffect(() => {
+        if (!socket) return;
+        const handleTeamsRefresh = () => {
+            refetch();
+        };
+
+        socket.on('refresh_todos', handleTeamsRefresh);
+
+        return () => {
+            socket.off('refresh_todos', handleTeamsRefresh);
+        };
+    }, [socket, refetch]);
 
     return (
         <>
