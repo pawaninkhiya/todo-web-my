@@ -30,14 +30,14 @@ export const useGetAllTodosQuery = (params: GetTodosParams) => {
 
 //  Create Todo
 export const useCreateTodoMutation = () => {
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
     return useMutation({
         mutationKey: ["createTodo"],
         mutationFn: createTodo,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["todos"] });
-            queryClient.invalidateQueries({ queryKey: ["todoCounts"] });
-        },
+        // onSuccess: () => {
+        //     queryClient.invalidateQueries({ queryKey: ["todos"] });
+        //     queryClient.invalidateQueries({ queryKey: ["todoCounts"] });
+        // },
     });
 };
 

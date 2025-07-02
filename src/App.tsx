@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { RiCalendarTodoLine } from "react-icons/ri";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Sidebar from "@components/Sidebar";
 import ProtectedRoute from "@routes/ProtectedRoute";
 import { useAuth } from "@contexts/AuthProvider";
@@ -8,7 +8,7 @@ import { Icons } from "@assets/icons";
 import { useUIContext } from "@contexts/UIProvider";
 import DeleteAlertModal from "@components/DeleteAlertModal";
 import PageLoader from "@components/PageLoader";
-
+import { io } from "socket.io-client"
 const Login = lazy(() => import("./pages/auth/Login"));
 const Todo = lazy(() => import("./pages/todos/Todo"));
 const Ticket = lazy(() => import("./pages/tickets/Ticket"));
@@ -16,7 +16,7 @@ const TicketDetail = lazy(() => import("./pages/tickets/TicketDetail"));
 
 const App = () => {
     const { isSidebarOpen, toggleSidebar } = useUIContext();
-    const { user, isLoading, logout } = useAuth();
+    const { user, isLoading, logout, setSocket } = useAuth();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const navigate = useNavigate();
     const handleLogoutClick = () => {
@@ -33,6 +33,17 @@ const App = () => {
 
         }
     };
+
+
+    useEffect(() => {
+        const newSocket = io('https://test.chawlacomponents.in/');
+        // const newSocket = io('http://localhost:5050');
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
 
     return (
         <div className="h-screen flex flex-col bg-[#F6F6F6]">

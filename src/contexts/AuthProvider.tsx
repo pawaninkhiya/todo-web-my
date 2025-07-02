@@ -1,8 +1,9 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { loginUser, authUserProfile, logoutUser } from "@services/apis/auth/auth";
 import type { LoginResponse, UserData } from "@interfaces/authTypes";
+import type { Socket } from "socket.io-client";
 
 interface AuthContextType {
     user: UserData | undefined;
@@ -15,11 +16,14 @@ interface AuthContextType {
     logout: () => Promise<void>;
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
+    socket: Socket | null,
+    setSocket: React.Dispatch<React.SetStateAction<Socket | null>>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const [socket, setSocket] = useState<Socket | null>(null);
     const [search, setSearch] = useState<string>("");
     const [user, setUser] = useState<null | UserData>(null);
     const navigate = useNavigate();
@@ -85,7 +89,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
         logout: () => logoutMutation.mutateAsync(),
         search,
-        setSearch
+        setSearch,
+        socket,
+        setSocket
     }), [
         user,
         isUserLoading,
@@ -94,7 +100,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         loginMutation.error,
         logoutMutation.mutateAsync,
         search,
-        setSearch
+        setSearch,
+        socket,
+        setSocket
     ]);
 
     return (

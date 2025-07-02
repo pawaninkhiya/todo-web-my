@@ -13,7 +13,7 @@ import { useAuth } from "@contexts/AuthProvider";
 import { useDebounceValue } from "@hooks/useDebounceValue";
 import { motion } from "framer-motion"
 const Todo = () => {
-    const { search } = useAuth();
+    const { search, socket } = useAuth();
     const debounceSearch = useDebounceValue(search, 500);
     const { reward: completeReward } = useReward('complete-reward', 'confetti', {
         angle: 90,
@@ -30,7 +30,7 @@ const Todo = () => {
     const [isEditing, setIsEditing] = useState(false);
     const location = useLocation();
     const { filter = 'today', teamId, teamName } = location.state || {};
-    const { data, isLoading: isTodosLoading } = useGetAllTodosQuery({
+    const { data, isLoading: isTodosLoading, refetch: refetchTodos } = useGetAllTodosQuery({
         filter: filter,
         teamId: teamId,
         search: debounceSearch
@@ -40,6 +40,27 @@ const Todo = () => {
         setIsEditing(false);
         setIsEdit(null);
     };
+
+
+    useEffect(() => {
+        if (!socket) return;
+        if (socket.connected) {
+            console.log(' Socket is already connected:', socket.id);
+        } else {
+            socket.once('connect', () => {
+                console.log('🔌 Socket connected:', socket.id);
+            });
+        }
+        const handleTodoRefresh = () => {
+            refetchTodos();
+        };
+
+        socket.on('refresh_todos', handleTodoRefresh);
+
+        return () => {
+            socket.off('refresh_todos', handleTodoRefresh);
+        };
+    }, [socket, refetchTodos]);
 
     useEffect(() => {
         setIsEditing(false);
@@ -101,7 +122,7 @@ const Todo = () => {
                             </>
                         ) : teamId ? (
                             <>
-                                <Icons.Users /> 
+                                <Icons.Users />
                                 {data?.FilterTodo?.[0]?.teamId?.name ||
                                     data?.completedTodo?.[0]?.teamId?.name ||
                                     teamName}
