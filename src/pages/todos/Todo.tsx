@@ -154,23 +154,18 @@ const Todo = () => {
                             ) : (
                                 <>
                                     {data?.FilterTodo?.map((todo: Todo) => {
-                                        const creator = todo?.createdBy?.userName
-                                            ? {
-                                                initials: todo.createdBy.userName
-                                                    .split(" ")
-                                                    .map((n) => n[0])
-                                                    .join("")
-                                                    .slice(0, 2)
-                                                    .toUpperCase(),
-                                                color: "bg-green-500",
-                                            }
-                                            : { initials: "--", color: "bg-gray-400" };
+                                        const assignees = todo?.assignedTo?.length > 0
+                                            ? todo.assignedTo.map(user => ({
+                                                initials: user.name.split(" ").map(n => n[0]).join("").slice(0, 1).toUpperCase(),
+                                                color: "bg-blue-500" 
+                                            }))
+                                            : [{ initials: "--", color: "bg-gray-400" }];
 
                                         return (
                                             <TodoCard
                                                 key={todo._id}
                                                 todo={todo}
-                                                assignee={creator}
+                                                assignees={assignees}
                                                 handleCloseEdit={handleCloseEdit}
                                                 isEditing={isEditing}
                                                 onEdit={() => {
@@ -186,23 +181,18 @@ const Todo = () => {
                                     })}
 
                                     {data?.completedTodo?.map((todo: Todo) => {
-                                        const creator = todo?.createdBy?.userName
-                                            ? {
-                                                initials: todo.createdBy.userName
-                                                    .split(" ")
-                                                    .map((n) => n[0])
-                                                    .join("")
-                                                    .slice(0, 2)
-                                                    .toUpperCase(),
-                                                color: "bg-green-500"
-                                            }
-                                            : { initials: "--", color: "bg-gray-400" };
+                                        const assignees = todo?.assignedTo?.length > 0
+                                            ? todo.assignedTo.map(user => ({
+                                                initials: user.name.split(" ").map(n => n[0]).join("").slice(0, 1).toUpperCase(),
+                                                color: "bg-blue-500" 
+                                            }))
+                                            : [{ initials: "--", color: "bg-gray-400" }];
 
                                         return (
                                             <TodoCard
                                                 key={todo._id}
                                                 todo={todo}
-                                                assignee={creator}
+                                                assignees={assignees}
                                                 handleCloseEdit={handleCloseEdit}
                                                 isEditing={isEditing}
                                                 onEdit={() => {

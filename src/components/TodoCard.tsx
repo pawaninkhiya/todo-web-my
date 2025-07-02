@@ -9,17 +9,17 @@ import toast from "react-hot-toast";
 
 interface TodoCardProps {
     todo: Todo;
-    assignee: {
+    assignees: {  
         initials: string;
         color: string;
-    };
+    }[];
     onEdit?: () => void;
     handleCloseEdit: () => void;
     isEditing: boolean;
     onComplete?: (id: string) => void;
 }
 
-export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, onComplete }: TodoCardProps) => {
+export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, isEditing, onComplete }: TodoCardProps) => {
     const { mutateAsync: updateTodo } = useUpdateTodoMutation(todo._id);
     const { user } = useAuth();
 
@@ -131,12 +131,27 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
             </div>
 
             <div className="flex items-center gap-3 text-sm text-gray-700">
-                <motion.span
-                    className={`${assignee.color} text-[10px] md:text-xs min-w-8 hidden md:flex justify-center rounded-full font-medium uppercase px-2 py-2 text-white`}
-                    whileHover={{ scale: 1.05 }}
-                >
-                    {assignee.initials}
-                </motion.span>
+                <div className="flex -space-x-2">
+                    {assignees?.slice(0, 2)?.map((assignee, index) => (
+                        <motion.span
+                            key={index}
+                            className={`${assignee.color} text-[10px] md:text-xs h-8 w-8 flex items-center justify-center rounded-full font-medium uppercase text-white border-2 border-white`}
+                            whileHover={{ scale: 1.05 }}
+                            style={{ zIndex: 2 - index }}
+                        >
+                            {assignee.initials}
+                        </motion.span>
+                    ))}
+                    {assignees?.length > 2 && (
+                        <motion.span
+                            className="bg-gray-400 text-[10px] md:text-xs h-8 w-8 flex items-center justify-center rounded-full font-medium uppercase text-white border-2 border-white"
+                            whileHover={{ scale: 1.05 }}
+                            style={{ zIndex: 0 }}
+                        >
+                            +{assignees.length - 2}
+                        </motion.span>
+                    )}
+                </div>
                 <motion.div
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.8 }}
@@ -151,6 +166,6 @@ export const TodoCard = ({ todo, assignee, onEdit, handleCloseEdit, isEditing, o
                     />
                 </motion.div>
             </div>
-        </motion.div>
+        </motion.div >
     );
 };
