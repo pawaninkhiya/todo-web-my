@@ -33,7 +33,7 @@ const Todo = () => {
     const { data, isLoading: isTodosLoading, refetch: refetchTodos } = useGetAllTodosQuery({
         filter: filter,
         teamId: teamId,
-        search: debounceSearch
+        search: debounceSearch || ""
     });
 
     const handleCloseEdit = () => {
@@ -156,7 +156,7 @@ const Todo = () => {
                                     {data?.FilterTodo?.map((todo: Todo) => {
                                         const assignees = todo?.assignedTo?.length > 0
                                             ? todo.assignedTo.map(user => ({
-                                                initials: user.name.split(" ").map(n => n[0]).join("").slice(0, 1).toUpperCase(),
+                                                initials: user?.name?.split(" ")?.map(n => n[0])?.join("")?.slice(0, 1)?.toUpperCase(),
                                                 color: "bg-blue-500" 
                                             }))
                                             : [{ initials: "--", color: "bg-gray-400" }];
@@ -183,7 +183,7 @@ const Todo = () => {
                                     {data?.completedTodo?.map((todo: Todo) => {
                                         const assignees = todo?.assignedTo?.length > 0
                                             ? todo.assignedTo.map(user => ({
-                                                initials: user.name.split(" ").map(n => n[0]).join("").slice(0, 1).toUpperCase(),
+                                                initials: user?.name?.split(" ")?.map(n => n[0])?.join("")?.slice(0, 1)?.toUpperCase(),
                                                 color: "bg-blue-500" 
                                             }))
                                             : [{ initials: "--", color: "bg-gray-400" }];

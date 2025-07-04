@@ -173,15 +173,12 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
                                                     }`}
                                             >
                                                 <span className="mr-3 text-purple-500">{index + 1}</span>
-                                                <div className="flex gap-2 items-center flex-1 justify-between">
-                                                    <span className="truncate max-w-[85%]">{item.name}</span>
-                                                    <div className="flex items-center gap-2">
-                                                        <Icons.Users fontSize={14} className="text-gray-600" />
+                                                <div className="flex gap-2 items-center flex-1 justify-between min-w-0">
+                                                    <span className="truncate flex-1">{item.name}</span>
+                                                    <div className="flex items-center shrink-0">
+                                                        <Icons.Users fontSize={14} className="text-gray-600 mr-2" />
                                                         {hoveredTeamId === item._id && user?.role === "admin" && (
                                                             <>
-                                                                {
-
-                                                                }
                                                                 <button
                                                                     onClick={(e) => {
                                                                         e.stopPropagation();
@@ -202,7 +199,6 @@ const SidebarLists = ({ isMobile, isDesktop, navigate, showAddInput, setShowAddI
                                                                 >
                                                                     <Icons.Delete size={16} />
                                                                 </button>
-
                                                             </>
                                                         )}
                                                     </div>

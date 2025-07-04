@@ -11,10 +11,17 @@ interface GetTodosParams {
     filter?: string;
     teamId?: string;
     teamFilter?: string;
+    search?: string,
 }
 
 export const getAllTodos = async (params: GetTodosParams): Promise<TodoResponse> => {
-    const response = await api.get(TODOS_ENDPOINTS.GET_ALL_TODOS, { params });
+    const filteredParams = Object.fromEntries(
+        Object.entries(params).filter(([_, value]) => 
+            value !== undefined && value !== "" && value !== null
+        )
+    );
+
+    const response = await api.get(TODOS_ENDPOINTS.GET_ALL_TODOS, { params: filteredParams });
     return response.data;
 };
 
@@ -66,7 +73,7 @@ export const getTodoCountsByAssignee = async (): Promise<TodoSummaryCounts> => {
 };
 
 // 9. Delete a step from a todo
-export const deleteStepFromTodo = async ({todoId,stepId}: {todoId: string;stepId: string;}): Promise<any> => {
+export const deleteStepFromTodo = async ({ todoId, stepId }: { todoId: string; stepId: string; }): Promise<any> => {
     const payload = { todoId, stepId };
     const response = await api.delete(TODOS_ENDPOINTS.DELETE_STEP_FROM_TODO, {
         data: payload,
