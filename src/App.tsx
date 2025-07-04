@@ -40,7 +40,6 @@ const App = () => {
         const newSocket = io('https://test.chawlacomponents.in/');
         // const newSocket = io('http://localhost:5050');
         setSocket(newSocket);
-
         return () => {
             newSocket.disconnect();
         };
