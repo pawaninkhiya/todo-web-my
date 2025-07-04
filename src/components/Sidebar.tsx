@@ -37,7 +37,7 @@ const Sidebar = () => {
         <>
             <div
                 className={`bg-[#F6F6F6] h-screen flex flex-col z-50 transition-transform overflow-hidden duration-300 ease-in-out
-            ${isMobile ? "fixed top-0 left-0 w-[280px]" : isTablet ? "w-20 items-center" : "w-[280px]"}
+            ${isMobile ? "fixed top-0 left-0 w-[280px]" : isTablet ? "w-20 items-center" : "w-[300px]"}
             ${isMobile ? (isSidebarOpen ? "translate-x-0" : "-translate-x-full") : ""}`}>
                 <SidebarHeader
                     isMobile={isMobile}
