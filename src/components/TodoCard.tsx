@@ -126,7 +126,7 @@ export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, isEditing, 
                     </span>
                 </div>
                 <span className="text-[10px] sm:text-xs text-gray-500 pl-7">
-                    {todo.teamId.name}
+                    {todo?.teamId?.name}
                 </span>
             </div>
 

@@ -8,7 +8,8 @@ import { Icons } from "@assets/icons";
 import { useUIContext } from "@contexts/UIProvider";
 import DeleteAlertModal from "@components/DeleteAlertModal";
 import PageLoader from "@components/PageLoader";
-import { io } from "socket.io-client"
+import { io } from "socket.io-client";
+import { useFirebaseMessaging } from "@hooks/useFirebaseMessaging";
 const Login = lazy(() => import("./pages/auth/Login"));
 const Todo = lazy(() => import("./pages/todos/Todo"));
 const Ticket = lazy(() => import("./pages/tickets/Ticket"));
@@ -19,6 +20,14 @@ const App = () => {
     const { user, isLoading, logout, setSocket } = useAuth();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const navigate = useNavigate();
+    const { notification } = useFirebaseMessaging();
+
+    useEffect(() => {
+        if (notification) {
+            // Handle the notification
+            console.log("New notification:", notification);
+        }
+    }, [notification]);
     const handleLogoutClick = () => {
         setShowLogoutModal(true);
     };
@@ -27,18 +36,15 @@ const App = () => {
         try {
             await logout();
             localStorage.removeItem("userId");
-            navigate("/login")
+            navigate("/login");
             setShowLogoutModal(false);
-        } catch (error) {
-
-        }
+        } catch (error) { }
     };
-
 
     useEffect(() => {
         // const newSocket = io('https://chawlacomponents.in/');
-        const newSocket = io('https://test.chawlacomponents.in/');
-        // const newSocket = io('http://localhost:5050');
+        // const newSocket = io("https://test.chawlacomponents.in/");
+        const newSocket = io('http://localhost:5050');
         setSocket(newSocket);
         return () => {
             newSocket.disconnect();
@@ -68,14 +74,12 @@ const App = () => {
                     <div className="flex items-center gap-4">
                         <button
                             onClick={handleLogoutClick}
-                            className="text-gray-700 sm:text-xs text-lg cursor-pointer"
-                        >
+                            className="text-gray-700 sm:text-xs text-lg cursor-pointer">
                             <Icons.Logout fontSize={22} />
                         </button>
                         <button
                             onClick={toggleSidebar}
-                            className="text-gray-700 sm:hidden sm:text-xs text-lg"
-                        >
+                            className="text-gray-700 sm:hidden sm:text-xs text-lg">
                             {!isSidebarOpen && <Icons.MenuButtonWide />}
                         </button>
                     </div>
@@ -91,7 +95,10 @@ const App = () => {
                             <Route
                                 path="/"
                                 element={
-                                    <Suspense fallback={<PageLoader message="Loading Todo..." />}>
+                                    <Suspense
+                                        fallback={
+                                            <PageLoader message="Loading Todo..." />
+                                        }>
                                         <Todo />
                                     </Suspense>
                                 }
@@ -99,7 +106,10 @@ const App = () => {
                             <Route
                                 path="/tickets"
                                 element={
-                                    <Suspense fallback={<PageLoader message="Loading Tickets..." />}>
+                                    <Suspense
+                                        fallback={
+                                            <PageLoader message="Loading Tickets..." />
+                                        }>
                                         <Ticket />
                                     </Suspense>
                                 }
@@ -107,7 +117,10 @@ const App = () => {
                             <Route
                                 path="/tickets/:id"
                                 element={
-                                    <Suspense fallback={<PageLoader message="Loading Ticket Detail..." />}>
+                                    <Suspense
+                                        fallback={
+                                            <PageLoader message="Loading Ticket Detail..." />
+                                        }>
                                         <TicketDetail />
                                     </Suspense>
                                 }
@@ -117,7 +130,10 @@ const App = () => {
                             <Route
                                 path="/login"
                                 element={
-                                    <Suspense fallback={<PageLoader message="Loading Login..." />}>
+                                    <Suspense
+                                        fallback={
+                                            <PageLoader message="Loading Login..." />
+                                        }>
                                         <Login />
                                     </Suspense>
                                 }
@@ -130,7 +146,9 @@ const App = () => {
                                 <Navigate
                                     to={user ? "/" : "/login"}
                                     replace
-                                    state={user ? { filter: "today" } : undefined}
+                                    state={
+                                        user ? { filter: "today" } : undefined
+                                    }
                                 />
                             }
                         />

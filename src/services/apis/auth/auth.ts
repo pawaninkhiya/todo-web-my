@@ -5,19 +5,22 @@ import { useQuery } from "@tanstack/react-query";
 interface LoginPayloadRaw {
     identifier: string;
     password: string;
+    fcmToken: string,
 }
 
 interface LoginPayload {
     email?: string;
     contactNumber?: string;
     password: string;
+    fcmToken: string,
 }
 
-export const loginUser = async ({ identifier, password }: LoginPayloadRaw): Promise<LoginResponse> => {
+export const loginUser = async ({ identifier, password, fcmToken }: LoginPayloadRaw): Promise<LoginResponse> => {
     const isEmail = identifier.includes("@");
     const payload: LoginPayload = {
         ...(isEmail ? { email: identifier } : { contactNumber: identifier }),
         password,
+        fcmToken
     };
     const response = await api.post(AUTH_ENDPOINTS.LOGIN, payload);
     return response.data;

@@ -11,7 +11,7 @@ import { ToggleInputTypeButton } from './components/ToggleInputTypeButton';
 import { PasswordInputField } from './components/PasswordInputField';
 import { SubmitButton } from './components/SubmitButton';
 const Login = () => {
-    const { loginUser } = useAuth();
+    const { loginUser, fcmToken } = useAuth();
     const [formData, setFormData] = useState({ identifier: '', password: '' });
     const [usePhone, setUsePhone] = useState(false);
 
@@ -29,7 +29,7 @@ const Login = () => {
             return;
         }
         try {
-            loginUser.login({ identifier, password })
+            loginUser.login({ identifier, password, fcmToken })
         } catch (error) {
             console.error('Login error:', error);
             toast.error(loginUser.error?.message || 'Login failed. Please try again.');

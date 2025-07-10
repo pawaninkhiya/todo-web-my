@@ -18,11 +18,14 @@ interface AuthContextType {
     setSearch: React.Dispatch<React.SetStateAction<string>>;
     socket: Socket | null,
     setSocket: React.Dispatch<React.SetStateAction<Socket | null>>;
+    fcmToken: string | null,
+    setFcmToken: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+    const [fcmToken, setFcmToken] = useState<string | null>(null);
     const [socket, setSocket] = useState<Socket | null>(null);
     const [search, setSearch] = useState<string>("");
     const [user, setUser] = useState<null | UserData>(null);
@@ -91,7 +94,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         search,
         setSearch,
         socket,
-        setSocket
+        setSocket,
+        fcmToken,
+        setFcmToken
     }), [
         user,
         isUserLoading,
@@ -102,7 +107,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         search,
         setSearch,
         socket,
-        setSocket
+        setSocket,
+        fcmToken,
+        setFcmToken
     ]);
 
     return (
