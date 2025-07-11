@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { RiCalendarTodoLine } from "react-icons/ri";
 import { lazy, Suspense, useEffect, useState } from "react";
 import Sidebar from "@components/Sidebar";
 import ProtectedRoute from "@routes/ProtectedRoute";
@@ -9,6 +8,7 @@ import { useUIContext } from "@contexts/UIProvider";
 import DeleteAlertModal from "@components/DeleteAlertModal";
 import PageLoader from "@components/PageLoader";
 import { io } from "socket.io-client";
+import logo from "@assets/logo.png"
 const Login = lazy(() => import("./pages/auth/Login"));
 const Todo = lazy(() => import("./pages/todos/Todo"));
 const Ticket = lazy(() => import("./pages/tickets/Ticket"));
@@ -60,7 +60,7 @@ const App = () => {
             {user && !isLoading && (
                 <header className="h-12 md:h-8 flex items-center px-4 justify-between">
                     <h1 className="text-[14px] font-semibold text-gray-700 tracking-tight flex gap-2 items-center">
-                        <RiCalendarTodoLine fontSize={20} /> Chawla To Do
+                        <img src={logo} alt="logo" width={17} />Chawla To Do
                     </h1>
                     <div className="flex items-center gap-4">
                         <button
