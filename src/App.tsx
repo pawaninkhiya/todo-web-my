@@ -9,7 +9,6 @@ import { useUIContext } from "@contexts/UIProvider";
 import DeleteAlertModal from "@components/DeleteAlertModal";
 import PageLoader from "@components/PageLoader";
 import { io } from "socket.io-client";
-import { useFirebaseMessaging } from "@hooks/useFirebaseMessaging";
 const Login = lazy(() => import("./pages/auth/Login"));
 const Todo = lazy(() => import("./pages/todos/Todo"));
 const Ticket = lazy(() => import("./pages/tickets/Ticket"));
@@ -20,14 +19,6 @@ const App = () => {
     const { user, isLoading, logout, setSocket } = useAuth();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const navigate = useNavigate();
-    const { notification } = useFirebaseMessaging();
-
-    useEffect(() => {
-        if (notification) {
-            // Handle the notification
-            console.log("New notification:", notification);
-        }
-    }, [notification]);
     const handleLogoutClick = () => {
         setShowLogoutModal(true);
     };
@@ -44,7 +35,7 @@ const App = () => {
     useEffect(() => {
         // const newSocket = io('https://chawlacomponents.in/');
         // const newSocket = io("https://test.chawlacomponents.in/");
-        const newSocket = io('http://localhost:5050');
+        const newSocket = io("http://localhost:5050");
         setSocket(newSocket);
         return () => {
             newSocket.disconnect();
