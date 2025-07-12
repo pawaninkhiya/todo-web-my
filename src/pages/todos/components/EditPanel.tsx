@@ -24,6 +24,8 @@ interface EditPanelProps {
 }
 
 export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, refetch, handleCloseEdit }: EditPanelProps) => {
+
+
     const { user } = useAuth();
     const todoId = initialEditData._id;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -153,10 +155,10 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
                         <div className="flex items-start justify-between gap-4">
                             <motion.button
                                 className={`border-2 cursor-pointer h-6 w-6 flex rounded-full items-center justify-center group transition-colors ${status === "completed"
-                                        ? "bg-green-500 border-green-500"
-                                        : status === "inProgress"
-                                            ? "border-blue-500"
-                                            : "border-gray-900"
+                                    ? "bg-green-500 border-green-500"
+                                    : status === "inProgress"
+                                        ? "border-blue-500"
+                                        : "border-gray-900"
                                     }`}
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}

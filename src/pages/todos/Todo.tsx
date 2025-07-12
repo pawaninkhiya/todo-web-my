@@ -12,6 +12,7 @@ import { useReward } from 'react-rewards';
 import { useAuth } from "@contexts/AuthProvider";
 import { useDebounceValue } from "@hooks/useDebounceValue";
 import { motion } from "framer-motion"
+import { EditPanelSkeleton } from "@components/skeletons/EditPanelSkeleton";
 const Todo = () => {
     const { search, socket } = useAuth();
     const debounceSearch = useDebounceValue(search, 500);
@@ -75,8 +76,13 @@ const Todo = () => {
             : FILTER_CONFIG.find((f) => f.key === filter)) ?? defaultConfig;
 
     const handleEditTodo = (id: string) => {
-        setIsEdit(id);
+        if (isEditId === id && isEditing) {
+            handleCloseEdit();
+        } else {
+            setIsEdit(id);
+        }
     };
+
 
     useEffect(() => {
         if (!isEditId) return;
@@ -91,6 +97,7 @@ const Todo = () => {
             setIsEdit(null);
         }
     }, [isEditLoading, editData, isEditError, isEditId]);
+
 
     const hasNoData = !isTodosLoading &&
         !data?.FilterTodo?.length &&
@@ -157,7 +164,7 @@ const Todo = () => {
                                         const assignees = todo?.assignedTo?.length > 0
                                             ? todo.assignedTo.map(user => ({
                                                 initials: user?.name?.split(" ")?.map(n => n[0])?.join("")?.slice(0, 1)?.toUpperCase(),
-                                                color: "bg-blue-500" 
+                                                color: "bg-blue-500"
                                             }))
                                             : [{ initials: "--", color: "bg-gray-400" }];
 
@@ -167,14 +174,7 @@ const Todo = () => {
                                                 todo={todo}
                                                 assignees={assignees}
                                                 handleCloseEdit={handleCloseEdit}
-                                                isEditing={isEditing}
-                                                onEdit={() => {
-                                                    if (isEditing) {
-                                                        handleCloseEdit();
-                                                    } else {
-                                                        handleEditTodo(todo._id);
-                                                    }
-                                                }}
+                                                onEdit={() => { handleEditTodo(todo._id) }}
                                                 onComplete={completeReward}
                                             />
                                         );
@@ -184,7 +184,7 @@ const Todo = () => {
                                         const assignees = todo?.assignedTo?.length > 0
                                             ? todo.assignedTo.map(user => ({
                                                 initials: user?.name?.split(" ")?.map(n => n[0])?.join("")?.slice(0, 1)?.toUpperCase(),
-                                                color: "bg-blue-500" 
+                                                color: "bg-blue-500"
                                             }))
                                             : [{ initials: "--", color: "bg-gray-400" }];
 
@@ -194,14 +194,7 @@ const Todo = () => {
                                                 todo={todo}
                                                 assignees={assignees}
                                                 handleCloseEdit={handleCloseEdit}
-                                                isEditing={isEditing}
-                                                onEdit={() => {
-                                                    if (isEditing) {
-                                                        handleCloseEdit();
-                                                    } else {
-                                                        handleEditTodo(todo._id);
-                                                    }
-                                                }}
+                                                onEdit={() => { handleEditTodo(todo._id) }}
                                                 onComplete={completeReward}
                                             />
                                         );
@@ -220,14 +213,19 @@ const Todo = () => {
             </div>
 
             {isEditing && (
-                <EditPanel
-                    isOpen={isEditing}
-                    setIsOpen={handleCloseEdit}
-                    editData={editData}
-                    refetch={refetch}
-                    handleCloseEdit={handleCloseEdit}
-                />
+                isEditLoading ? (
+                    <EditPanelSkeleton />
+                ) : (
+                    <EditPanel
+                        isOpen={isEditing}
+                        setIsOpen={handleCloseEdit}
+                        editData={editData}
+                        refetch={refetch}
+                        handleCloseEdit={handleCloseEdit}
+                    />
+                )
             )}
+
         </div>
     );
 };

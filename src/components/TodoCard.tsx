@@ -9,17 +9,16 @@ import toast from "react-hot-toast";
 
 interface TodoCardProps {
     todo: Todo;
-    assignees: {  
+    assignees: {
         initials: string;
         color: string;
     }[];
     onEdit?: () => void;
     handleCloseEdit: () => void;
-    isEditing: boolean;
     onComplete?: (id: string) => void;
 }
 
-export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, isEditing, onComplete }: TodoCardProps) => {
+export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, onComplete }: TodoCardProps) => {
     const { mutateAsync: updateTodo } = useUpdateTodoMutation(todo._id);
     const { user } = useAuth();
 
@@ -34,6 +33,9 @@ export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, isEditing, 
                     const audio = new Audio(completeSoun);
                     audio.play();
                     onComplete?.(todo._id);
+                    handleCloseEdit();
+                }
+                else {
                     handleCloseEdit();
                 }
             } catch (error) {
@@ -64,7 +66,6 @@ export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, isEditing, 
         (e: React.MouseEvent) => {
             e.stopPropagation();
             const isAssigned = todo.assignedTo.some(assign => assign.id === user?._id);
-            console.log(isAssigned);
             const isAdmin = user?.role === "admin";
 
             if (!(isAssigned || isAdmin)) {
@@ -95,19 +96,13 @@ export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, isEditing, 
             className={`${cardColor} rounded shadow-md my-3 p-4 flex items-start justify-between gap-4 hover:bg-opacity-80 transition-colors cursor-pointer ${isCompleted ? "opacity-70" : ""}`}
             whileHover={{ y: -2 }}
             layout
-            onClick={() => {
-                if (isEditing) handleCloseEdit();
-                else onEdit?.();
-            }}
+            onClick={() => onEdit?.()}
         >
             <div className="flex flex-col gap-1 text-sm text-gray-700">
                 <div className="flex items-center gap-2">
                     <motion.div
                         className={`border-2 rounded-full h-6 w-6 min-w-6 flex items-center justify-center group transition-colors ${statusColor}`}
-                        onClick={(e) => {
-                            if (isEditing) handleCloseEdit();
-                            else handleToggleComplete(e);
-                        }}
+                        onClick={(e) => handleToggleComplete(e)}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                     >
@@ -155,10 +150,7 @@ export const TodoCard = ({ todo, assignees, onEdit, handleCloseEdit, isEditing, 
                 <motion.div
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.8 }}
-                    onClick={(e) => {
-                        if (isEditing) handleCloseEdit();
-                        else handleToggleImportance(e);
-                    }}
+                    onClick={(e) => handleToggleImportance(e)}
                 >
                     <Icons.Star
                         size={24}
