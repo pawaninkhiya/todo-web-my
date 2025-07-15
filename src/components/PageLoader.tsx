@@ -8,7 +8,7 @@ const PageLoader = ({ message = "Loading..." }: { message?: string }) => {
                         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500"></div>
                     </div>
                 </div>
-                <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
+                <p className="mt-4 text-center text-sm text-gray-600">{message ? message :""}</p>
             </div>
         </div>
     );

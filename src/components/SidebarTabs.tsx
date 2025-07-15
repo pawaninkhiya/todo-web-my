@@ -65,6 +65,16 @@ const SidebarTabs = ({ isMobile, isDesktop, navigate, toggleSidebar }: SidebarTa
             filter: "completed",
             count: counts?.completeCount || 0,
         },
+        {
+            name: "KRA",
+            icon: <Icons.NotebookText className="text-purple-500" size={20} />,
+            action: () => {
+                navigate('/kra/create');
+                toggleSidebar();
+            },
+            count: 0, // No count for KPA creation
+        }
+
     ];
 
     // const getActivePath = () => {
@@ -82,10 +92,14 @@ const SidebarTabs = ({ isMobile, isDesktop, navigate, toggleSidebar }: SidebarTa
                         <li key={tab.name}>
                             <button
                                 onClick={() => {
-                                    navigate(`/`, {
-                                        state: { filter: tab.filter },
-                                    });
-                                    toggleSidebar();
+                                    if (tab.action) {
+                                        tab.action();
+                                    } else {
+                                        navigate(`/`, {
+                                            state: { filter: tab.filter },
+                                        });
+                                        toggleSidebar();
+                                    }
                                 }}
                                 className={`w-full cursor-pointer  px-4 flex items-center justify-between  p-2.5 text-sm rounded hover:bg-gray-200 transition-colors 
                                 `}

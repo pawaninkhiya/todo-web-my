@@ -27,7 +27,7 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
 
 
     const { user } = useAuth();
-    const todoId = initialEditData._id;
+    const todoId = initialEditData?._id;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [title, setTitle] = useState(initialEditData.title);
     const [isImportant, setIsImportant] = useState(initialEditData.isImportant);

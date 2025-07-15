@@ -29,6 +29,8 @@ import { FiChevronsLeft } from "react-icons/fi";
 import { FiChevronsRight } from "react-icons/fi";
 import { FaChevronDown } from "react-icons/fa6";
 import { FaChevronUp } from "react-icons/fa6";
+import { LuNotebookText } from "react-icons/lu";
+import { LiaListUlSolid } from "react-icons/lia"
 export const Icons = {
     Today: LuSunMedium,
     Important: MdOutlineStarBorderPurple500,
@@ -62,5 +64,8 @@ export const Icons = {
     ChevronsLeft: FiChevronsLeft,
     ChevronsRight: FiChevronsRight,
     ChevronDown: FaChevronDown,
-    ChevronUp: FaChevronUp
+    ChevronUp: FaChevronUp,
+    NotebookText: LuNotebookText,
+    ListUlSolid: LiaListUlSolid
+    
 };

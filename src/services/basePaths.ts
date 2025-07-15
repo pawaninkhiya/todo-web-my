@@ -39,5 +39,12 @@ export const TICKET_ENDPOINTS = {
     GET_CUSTOMERS: "/v1/customer/app",
     GET_COMMENTS: "/v1/ticketRaise/getCommentApp"
 };
+export const KRA_ENDPOINTS = {
+    CREATE_KRA: "/v3/hrms/KRA/",
+    GET_ALL_KRA: "/v3/hrms/KRA/",
+    UPDATE_KRA: (id: string) => `/v3/hrms/KRA/${id}`,
+    DELETE_KRA: (id: string) => `/v3/hrms/KRA/${id}`,
+    GET_KRA_BY_ID: (id: string) => `/v3/hrms/KRA/${id}`,
+};
 
 

@@ -1,24 +1,20 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Sidebar from "@components/Sidebar";
-import ProtectedRoute from "@routes/ProtectedRoute";
 import { useAuth } from "@contexts/AuthProvider";
 import { Icons } from "@assets/icons";
 import { useUIContext } from "@contexts/UIProvider";
 import DeleteAlertModal from "@components/DeleteAlertModal";
-import PageLoader from "@components/PageLoader";
+import logo from "@assets/logo.png";
 import { io } from "socket.io-client";
-import logo from "@assets/logo.png"
-const Login = lazy(() => import("./pages/auth/Login"));
-const Todo = lazy(() => import("./pages/todos/Todo"));
-const Ticket = lazy(() => import("./pages/tickets/Ticket"));
-const TicketDetail = lazy(() => import("./pages/tickets/TicketDetail"));
+import AppRoutes from "@routes/TodoRoutes";
 
 const App = () => {
     const { isSidebarOpen, toggleSidebar } = useUIContext();
     const { user, isLoading, logout, setSocket } = useAuth();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const navigate = useNavigate();
+
     const handleLogoutClick = () => {
         setShowLogoutModal(true);
     };
@@ -34,8 +30,8 @@ const App = () => {
 
     useEffect(() => {
         // const newSocket = io('https://chawlacomponents.in/');
-        const newSocket = io("https://test.chawlacomponents.in/");
-        // const newSocket = io("http://localhost:5050");
+        // const newSocket = io("https://test.chawlacomponents.in/");
+        const newSocket = io("http://localhost:5050");
         setSocket(newSocket);
         return () => {
             newSocket.disconnect();
@@ -44,7 +40,6 @@ const App = () => {
 
     return (
         <div className="h-screen flex flex-col bg-[#F6F6F6]">
-            {/* Logout Confirmation Modal */}
             <DeleteAlertModal
                 isOpen={showLogoutModal}
                 onClose={() => setShowLogoutModal(false)}
@@ -81,69 +76,7 @@ const App = () => {
             <div className="flex flex-1 overflow-hidden">
                 {user && !isLoading && <Sidebar />}
                 <main className="flex-1 bg-gray-50 overflow-auto scrollbar-hide rounded-tl-xl rounded-tr-xl sm:rounded-tr-none border border-gray-200">
-                    <Routes>
-                        <Route element={<ProtectedRoute isProtected={true} />}>
-                            <Route
-                                path="/"
-                                element={
-                                    <Suspense
-                                        fallback={
-                                            <PageLoader message="Loading Todo..." />
-                                        }>
-                                        <Todo />
-                                    </Suspense>
-                                }
-                            />
-                            <Route
-                                path="/tickets"
-                                element={
-                                    <Suspense
-                                        fallback={
-                                            <PageLoader message="Loading Tickets..." />
-                                        }>
-                                        <Ticket />
-                                    </Suspense>
-                                }
-                            />
-                            <Route
-                                path="/tickets/:id"
-                                element={
-                                    <Suspense
-                                        fallback={
-                                            <PageLoader message="Loading Ticket Detail..." />
-                                        }>
-                                        <TicketDetail />
-                                    </Suspense>
-                                }
-                            />
-                        </Route>
-                        <Route element={<ProtectedRoute isProtected={false} />}>
-                            <Route
-                                path="/login"
-                                element={
-                                    <Suspense
-                                        fallback={
-                                            <PageLoader message="Loading Login..." />
-                                        }>
-                                        <Login />
-                                    </Suspense>
-                                }
-                            />
-                        </Route>
-
-                        <Route
-                            path="*"
-                            element={
-                                <Navigate
-                                    to={user ? "/" : "/login"}
-                                    replace
-                                    state={
-                                        user ? { filter: "today" } : undefined
-                                    }
-                                />
-                            }
-                        />
-                    </Routes>
+                    <AppRoutes />
                 </main>
             </div>
         </div>
