@@ -1,8 +1,21 @@
 import { api } from "@services/apiClient";
 import { KRA_ENDPOINTS } from "@services/basePaths";
 
-export const getAllKRA = async (): Promise<any> => {
-    const response = await api.get(KRA_ENDPOINTS.GET_ALL_KRA);
+interface GetAllKRAParams {
+    date?: string | undefined;
+}
+
+export const getAllKRA = async ({ date }: GetAllKRAParams): Promise<any> => {
+    const params: Record<string, string> = {};
+
+    if (date) {
+        params.date = date || ""
+    }
+
+    const response = await api.get(KRA_ENDPOINTS.GET_ALL_KRA, {
+        params,
+    });
+
     return response.data;
 };
 

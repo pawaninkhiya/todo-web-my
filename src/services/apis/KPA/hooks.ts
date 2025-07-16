@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createKRA, deleteKRA, getAllKRA, getKRAById, updateKRA } from "./Kra";
 
-export const useGetAllQuery = () => {
+export const useGetAllKRAQuery = ({ date }: { date: string | undefined }) => {
     return useQuery({
-        queryKey: ["KRAs"],
-        queryFn: getAllKRA,
+        queryKey: ["KRAs", date || "all"],
+        queryFn: () => getAllKRA({ date }), 
     });
 };
 export const useCreateKRAMutation = () => {
@@ -44,6 +44,6 @@ export const useGetKRAByIdQuery = (id: string) => {
         queryKey: ["KRA", id],
         queryFn: () => getKRAById(id),
         enabled: !!id, // Only run if id is provided
-        staleTime :0
+        staleTime: 0
     });
 };

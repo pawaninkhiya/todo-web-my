@@ -10,7 +10,9 @@ import {
     useCreateKRAMutation,
     useGetKRAByIdQuery,
     useUpdateKRAMutation,
-} from "@services/apis/KPA/hook";
+} from "@services/apis/KPA/hooks";
+import toast from "react-hot-toast";
+
 
 interface UserDropdownItem {
     id: string;
@@ -76,7 +78,7 @@ const KraCreate = () => {
         })) || [];
 
     const isSubmitting = createLoading || updateLoading;
-    const isFormValid =
+    let isFormValid =
         formData.title.trim() &&
         (formData.description || "").replace(/<[^>]+>/g, "").trim() &&
         (!kraId ? selectedUser : true);
@@ -101,8 +103,9 @@ const KraCreate = () => {
                 await createKpaAsync(payload);
             }
             handleClear();
-        } catch (error) {
-            console.error("Error submitting KRA:", error);
+        } catch (error: any) {
+            console.error(error.response?.data?.message);
+            toast.error(error.response?.data?.message || "An error occurred while submitting KRA");
         }
     };
 
@@ -135,6 +138,8 @@ const KraCreate = () => {
 
     const handleKraSelect = (id: string) => {
         setKraId(id);
+        setSidePanelOpen(false);
+
     };
 
     const handleSidePanelToggle = () => {
@@ -159,7 +164,7 @@ const KraCreate = () => {
                         <div className="flex items-center gap-3">
                             <button className="px-2 py-2 rounded bg-white shadow flex items-center gap-2 text-black text-sm font-medium hover:bg-white/85 xl:hidden">
                                 <Icons.ListUlSolid
-                                  fontSize={20}
+                                    fontSize={20}
                                     className="text-purple-600 hover:text-purple-800"
                                     onClick={handleSidePanelToggle}
                                 />
@@ -186,6 +191,16 @@ const KraCreate = () => {
                             </div>
                             <div className="bg-purple-100 text-purple-800 px-3 py-1 rounded text-xs inline-flex items-center">
                                 {selectedUser.name}
+                                {!kraId && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setSelectedUser(null)}
+                                        className="ml-2 text-purple-600 hover:text-purple-900 focus:outline-none"
+                                        title="Remove"
+                                    >
+                                        <Icons.Cross className="w-4 h-4" />
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
@@ -205,7 +220,7 @@ const KraCreate = () => {
                                 id="kpa-title"
                                 value={formData.title}
                                 onChange={handleInputChange}
-                                className="w-full p-4 text-gray-700 resize-none focus:outline-none rounded-lg"
+                                className="w-full p-4 text-gray-700 resize-none focus:outline-none rounded text-sm"
                                 placeholder="Enter Title..."
                                 rows={2}
                                 disabled={isSubmitting}

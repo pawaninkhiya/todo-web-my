@@ -1,6 +1,6 @@
 export const editorConfig = {
     readonly: false,
-    placeholder: "Enter your KPA description here...",
+    // placeholder: "Enter your KPA description here...",
     height: 400,
     minHeight: 200,
     maxHeight: 500,
