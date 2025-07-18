@@ -41,7 +41,7 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData,refetchT
     const { data: jobProfiles } = useGetAllJobProfilesQuery();
     const { data: dropdownUsers, isPending } = useGetTodosUsersQuery({
         name: debounceSearch,
-        jobProfileId: selectedJobProfiles.length > 0 ? selectedJobProfiles : undefined,
+        jobProfileIds: selectedJobProfiles.length > 0 ? selectedJobProfiles : undefined,
     });
 
     const { mutateAsync: assignUsers, isPending: isAssigning } = useUpdateAssignedUsersMutation();
@@ -82,6 +82,8 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData,refetchT
             try {
                 await assignUsers({ id: teamId, assignedUsers: selectedUsers });
                 setSelectedUsers([]);
+                setSelectedJobProfiles([]);
+                setSearchQuery('');
                 refetch?.();
                 refetchTodos?.();
                 setIsOpen?.(false);

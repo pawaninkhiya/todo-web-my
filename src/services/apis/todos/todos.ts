@@ -89,11 +89,11 @@ export const deleteTodo = async (id: string): Promise<any> => {
 };
 
 // 11. Get users for todos
-export const getTodosUsers = async (filters: { name?: string; jobProfileId?: string[] }): Promise<any> => {
+export const getTodosUsers = async (filters: { name?: string; jobProfileIds?: string[] }): Promise<any> => {
     const params: Record<string, string> = {};
     if (filters.name) params.name = filters.name;
-    if (filters.jobProfileId && filters.jobProfileId.length > 0) {
-        params.jobProfileId = filters.jobProfileId.join(",");
+    if (filters.jobProfileIds && filters.jobProfileIds.length > 0) {
+        params.jobProfileIds = filters.jobProfileIds.join(",");
     }
     const response = await api.get(TODOS_ENDPOINTS.TODOS_USERS, { params });
     return response.data;

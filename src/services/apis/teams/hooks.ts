@@ -73,6 +73,6 @@ export const useGetAssignedUsersQuery = (id: string) => {
     return useQuery({
         queryKey: ["assignedUsers", id],
         queryFn: () => getAssignedUsers(id),
-        enabled: !!id, // Only run this query if id is available
+        enabled: !!id, 
     });
 };
