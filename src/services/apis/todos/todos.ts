@@ -16,7 +16,7 @@ interface GetTodosParams {
 
 export const getAllTodos = async (params: GetTodosParams): Promise<TodoResponse> => {
     const filteredParams = Object.fromEntries(
-        Object.entries(params).filter(([_, value]) => 
+        Object.entries(params).filter(([_, value]) =>
             value !== undefined && value !== "" && value !== null
         )
     );
@@ -87,3 +87,18 @@ export const deleteTodo = async (id: string): Promise<any> => {
     const response = await api.delete(TODOS_ENDPOINTS.DELETE_TODO(id));
     return response.data;
 };
+
+// 11. Get users for todos
+export const getTodosUsers = async (filters: { name?: string; jobProfileId?: string }): Promise<any> => {
+    const params: Record<string, string> = {};
+    if (filters.name) params.name = filters.name;
+    if (filters.jobProfileId) params.jobProfileId = filters.jobProfileId;
+    const response = await api.get(TODOS_ENDPOINTS.TODOS_USERS, { params });
+    return response.data;
+};
+
+// 12. Get all job profiles
+export const getAllJobProfiles = async (): Promise<any> => {
+    const response = await api.get(TODOS_ENDPOINTS.GET_ALl_JOBPROFILES);
+    return response.data;
+}

@@ -2,6 +2,12 @@ export interface Team {
     _id: string;
     name: string;
     todosCount: number;
+    assignedUsers:[
+        {
+            _id: string;
+            name: string;
+        }
+    ]
 }
 
 export interface GetAllTeamsResponse {

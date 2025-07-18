@@ -29,13 +29,13 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
     const { user } = useAuth();
     const todoId = initialEditData?._id;
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [title, setTitle] = useState(initialEditData.title);
-    const [isImportant, setIsImportant] = useState(initialEditData.isImportant);
-    const [status, setStatus] = useState<TodoStatus>(initialEditData.status);
+    const [title, setTitle] = useState(initialEditData?.title);
+    const [isImportant, setIsImportant] = useState(initialEditData?.isImportant);
+    const [status, setStatus] = useState<TodoStatus>(initialEditData?.status);
 
     const { mutateAsync: updateTodoAsync, data } = useUpdateTodoMutation(todoId);
     const { mutateAsync: deleteTodoAsync } = useDeleteTodoMutation();
-    const prevTitleRef = useRef(initialEditData.title);
+    const prevTitleRef = useRef(initialEditData?.title ?? "");
     const { textareaRef } = useAutoResizeTextarea(title);
 
 
@@ -214,7 +214,7 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
 
 
                     <OtherDetail initialEditData={initialEditData} refetch={refetch} />
-                    <AssignTo todo={initialEditData} refetch={refetch} />
+                    <AssignTo todo={initialEditData} refetch={refetch} handleClose={handleClose} />
                     <FileUpload editData={initialEditData} refetch={refetch} />
                 </div>
 

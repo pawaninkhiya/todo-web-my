@@ -10,6 +10,8 @@ import {
     getTodoCountsByAssignee,
     deleteStepFromTodo,
     deleteTodo,
+    getTodosUsers,
+    getAllJobProfiles,
 } from "./todos";
 import type { Step } from "@interfaces/todosTypes";
 
@@ -138,3 +140,19 @@ export const useDeleteTodoMutation = () => {
         },
     });
 };
+
+// Get Users for Todos
+export const useGetTodosUsersQuery = (filters: { name?: string; jobProfileId?: string }) => {
+    return useQuery({
+        queryKey: ["todosUsers", filters],
+        queryFn: () => getTodosUsers(filters)
+    });
+};
+
+// Get All Job Profiles
+export const useGetAllJobProfilesQuery = () => {
+    return useQuery({
+        queryKey: ["jobProfiles"],
+        queryFn: getAllJobProfiles
+    });
+}

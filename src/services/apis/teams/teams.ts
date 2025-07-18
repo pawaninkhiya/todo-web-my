@@ -36,3 +36,18 @@ export const deleteTeam = async (id: string): Promise<{ message: string }> => {
     const response = await api.delete(TEAM_ENDPOINTS.DELETE_TEAM(id));
     return response.data;
 };
+
+export const updateAssignedUsers = async (id: string, assignedUsers: string[]): Promise<any> => {
+    const response = await api.put(TEAM_ENDPOINTS.UPDATE_ASSIGNED_USERS(id), { assignedUsers });
+    return response.data;
+}
+
+export const removeAssignedUser = async (id: string, userId: string): Promise<any> => {
+    const response = await api.put(TEAM_ENDPOINTS.REMOVE_ASSIGNED_USER(id),{ userId });
+    return response.data;
+};
+
+export const getAssignedUsers = async (id: string): Promise<any> => {
+    const response = await api.get(TEAM_ENDPOINTS.ASSIGNED_USERS(id));
+    return response.data;
+};

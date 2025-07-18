@@ -129,7 +129,7 @@ const KraCreate = () => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setFormData((prev) => ({ ...prev, title: e.target.value }));
+        setFormData((prev) => ({ ...prev, title: e.target.value.toUpperCase() }));
     };
 
     const handleEditorChange = (content: string) => {

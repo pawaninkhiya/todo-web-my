@@ -21,6 +21,8 @@ export const TODOS_ENDPOINTS = {
     GET_TODO_COUNTS_BY_ASSIGNEE: "/v3/hrms/todo/AllTodoCountAssigned", //
     DELETE_STEP_FROM_TODO: "/v3/hrms/todo/deleteSteps",
     DELETE_TODO: (id: string) => `/v3/hrms/todo/TodoDelete/${id}`,
+    TODOS_USERS: "/v3/hrms/todo/todoUsers",
+    GET_ALl_JOBPROFILES: "/v3/hrms/todo/jobProfiles",
 };
 
 export const TEAM_ENDPOINTS = {
@@ -28,6 +30,9 @@ export const TEAM_ENDPOINTS = {
     GET_ALL_TEAMS: "/v3/hrms/team/getAll",
     UPDATE_TEAM: (id: string) => `/v3/hrms/team/update/${id}`,
     DELETE_TEAM: (id: string) => `/v3/hrms/team/delete/${id}`,
+    UPDATE_ASSIGNED_USERS: (id: string) => `/v3/hrms/team/${id}/assigned-users`,
+    REMOVE_ASSIGNED_USER: (id: string) => `/v3/hrms/team/${id}/remove-assigned-user`,
+    ASSIGNED_USERS: (id: string) => `/v3/hrms/team/${id}/assigned-users`
 };
 export const TICKET_ENDPOINTS = {
     RAISED_USER: "/v1/ticketRaise/cacEmployeeSuggestions",

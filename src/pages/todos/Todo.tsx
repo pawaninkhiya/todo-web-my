@@ -13,6 +13,8 @@ import { useAuth } from "@contexts/AuthProvider";
 import { useDebounceValue } from "@hooks/useDebounceValue";
 import { motion } from "framer-motion"
 import { EditPanelSkeleton } from "@components/skeletons/EditPanelSkeleton";
+import AssignUsers from "./components/AssignUsers";
+import { useGetAssignedUsersQuery } from "@services/apis/teams/hooks";
 const Todo = () => {
     const { search, socket } = useAuth();
     const debounceSearch = useDebounceValue(search, 500);
@@ -36,6 +38,8 @@ const Todo = () => {
         teamId: teamId,
         search: debounceSearch || ""
     });
+    const { data: assignedData, refetch: refetchAssignedUsers } = useGetAssignedUsersQuery(teamId);
+    const [isAssignUsers, setIsAssignUsers] = useState<boolean>(false);
 
     const handleCloseEdit = () => {
         setIsEditing(false);
@@ -113,35 +117,49 @@ const Todo = () => {
                     <div className="absolute inset-0 bg-black/20 backdrop-blur-sm z-0" />
                 )}
 
-                <div className={`relative z-10 h-full flex flex-col ${currentConfig.textColor}`}>
-                    <motion.h2
-                        className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-3"
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.3 }}
-                        key={debounceSearch || teamId || currentConfig.heading}
-                    >
-                        {debounceSearch && !teamId ? (
-                            <>
-                                <Icons.Todo />
-                                All Todos
-                            </>
-                        ) : teamId ? (
-                            <>
-                                <Icons.Users />
-                                {data?.FilterTodo?.[0]?.teamId?.name ||
-                                    data?.completedTodo?.[0]?.teamId?.name ||
-                                    teamName}
-                            </>
-                        ) : (
-                            <>
-                                {currentConfig.icon}
-                                {currentConfig.heading}
-                            </>
-                        )}
-                    </motion.h2>
+                <div className={`relative z-10 h-full flex flex-col justify-center ${currentConfig.textColor}`}>
+                    <div className="flex justify-between">
+                        <motion.h2
+                            className="text-lg md:text-xl font-semibold mb-4 flex items-center gap-3"
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            transition={{ duration: 0.3 }}
+                            key={debounceSearch || teamId || currentConfig.heading}
+                        >
+                            {debounceSearch && !teamId ? (
+                                <>
+                                    <Icons.Todo />
+                                    All Todos
+                                </>
+                            ) : teamId ? (
+                                <>
+                                    <Icons.Users />
+                                    {data?.FilterTodo?.[0]?.teamId?.name ||
+                                        data?.completedTodo?.[0]?.teamId?.name ||
+                                        teamName}
+                                </>
+                            ) : (
+                                <>
+                                    {currentConfig.icon}
+                                    {currentConfig.heading}
+                                </>
+                            )}
+                        </motion.h2>
+                        {
+                            teamId && (
+                                <button
+                                    onClick={() => setIsAssignUsers(true)}
+                                    className="ml-auto mb-4 px-4 py-2 bg-white text-gray-900  hover:bg-gray-50 rounded cursor-pointer flex items-center gap-2 shadow-sm transition-all"
+                                >
+                                    <Icons.Users size={18} />
+                                    <span className="text-sm font-medium">Users ({assignedData?.data?.length || 0})</span>
+                                </button>
 
+                            )
+                        }
+
+                    </div>
                     <div id="complete-reward" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none" />
 
                     <div className="flex flex-col flex-1 overflow-hidden">
@@ -225,6 +243,8 @@ const Todo = () => {
                     />
                 )
             )}
+
+            <AssignUsers teamId={teamId ?? ""} isOpen={isAssignUsers} setIsOpen={setIsAssignUsers} refetch={refetchAssignedUsers} assignedData={assignedData} refetchTodo={refetch} />
 
         </div>
     );

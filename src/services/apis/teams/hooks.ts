@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createTeam, deleteTeam, getAllTeams, updateTeam } from "./teams";
+import { createTeam, deleteTeam, getAllTeams, getAssignedUsers, removeAssignedUser, updateAssignedUsers, updateTeam } from "./teams";
 
 //  Get all teams
 export const useGetAllTeamsQuery = () => {
@@ -47,3 +47,32 @@ export const useDeleteTeamMutation = () => {
     });
 };
 
+export const useUpdateAssignedUsersMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ["updateAssignedUsers"],
+        mutationFn: ({ id, assignedUsers }: { id: string; assignedUsers: string[] }) => updateAssignedUsers(id, assignedUsers),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["teams"] });
+        },
+    });
+}
+
+export const useRemoveAssignedUserMutation = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ["removeAssignedUser"],
+        mutationFn: ({ id, userId }: { id: string; userId: string }) => removeAssignedUser(id, userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["teams"] });
+        },
+    });
+};
+
+export const useGetAssignedUsersQuery = (id: string) => {
+    return useQuery({
+        queryKey: ["assignedUsers", id],
+        queryFn: () => getAssignedUsers(id),
+        enabled: !!id, // Only run this query if id is available
+    });
+};

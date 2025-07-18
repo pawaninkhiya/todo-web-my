@@ -27,9 +27,15 @@ export interface Todo {
     teamId: TeamInfo;
     steps: Step[];
     createdBy: Creator;
-    createdAt: string | null| undefined;
-    dueDate: string  | null
-    note:string
+    createdAt: string | null | undefined;
+    dueDate: string | null
+    note: string,
+    teamsAssignedUsers: [
+        {
+            _id: string,
+            name: string,
+        },
+    ]
 }
 
 

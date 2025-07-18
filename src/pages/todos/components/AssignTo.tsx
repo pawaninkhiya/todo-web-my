@@ -7,6 +7,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Icons } from "@assets/icons";
 import AssignToModal from '@components/AssignToModal';
 import { useGetUsersDropDown } from '@services/apis/auth/auth';
+import toast from 'react-hot-toast';
 
 export interface UserDropdownItem {
     id: string;
@@ -18,6 +19,7 @@ export interface UserDropdownItem {
 interface AssignToProps {
     todo: Todo;
     refetch: () => void;
+    handleClose: () => void;
 }
 
 interface User {
@@ -30,7 +32,7 @@ interface UserOption extends User {
     label: string;
 }
 
-const AssignTo = ({ todo, refetch }: AssignToProps) => {
+const AssignTo = ({ todo, refetch, handleClose }: AssignToProps) => {
     const { data: dropdownUsers } = useGetUsersDropDown();
     const { user } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +49,7 @@ const AssignTo = ({ todo, refetch }: AssignToProps) => {
     const { mutate: updateTodo, isPending } = useUpdateTodoMutation(todoId);
 
     const userOptions: UserDropdownItem[] = [
-        ...(dropdownUsers?.result?.map(user => ({
+        ...(todo?.teamsAssignedUsers?.map(user => ({
             id: user._id,
             name: user.name,
             value: user._id,
@@ -77,8 +79,16 @@ const AssignTo = ({ todo, refetch }: AssignToProps) => {
             <button
                 className="w-full shadow bg-white rounded p-4 hover:bg-gray-50 transition-colors text-left"
                 onClick={() => {
-                        setIsOpen(true)
+                    if (todo.teamsAssignedUsers.length <= 0) {
+                        toast.error("No team members available to assign.");
+                        handleClose();
+
+                    } else {
+                        setIsOpen(true);
+                    }
                 }}
+
+
             >
                 <div className="flex items-center justify-start gap-2 text-xs text-gray-700">
                     <Icons.UserPlus fontSize={16} />
