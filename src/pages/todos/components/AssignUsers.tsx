@@ -14,7 +14,6 @@ import { UserSearchFilters } from './UserSearchFilters';
 import { UsersList } from './UsersList';
 import { AssignUsersFooter } from './AssignUsersFooter';
 
-
 interface User {
     _id: string;
     name: string;
@@ -28,23 +27,22 @@ interface AssignUsersProps {
     refetch?: () => void;
     assignedData?: {
         data: User[];
-    }
-    refetchTodo?: () => void;
+    },
+    refetchTodos?: () => void;
 }
 
-const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData ,refetchTodo}: AssignUsersProps) => {
+const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData,refetchTodos }: AssignUsersProps) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedJobProfile, setSelectedJobProfile] = useState<string | null>(null);
+    const [selectedJobProfiles, setSelectedJobProfiles] = useState<string[]>([]);
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
     const debounceSearch = useDebounceValue(searchQuery, 300);
 
     const { data: jobProfiles } = useGetAllJobProfilesQuery();
     const { data: dropdownUsers, isPending } = useGetTodosUsersQuery({
-        jobProfileId: selectedJobProfile ?? '',
         name: debounceSearch,
+        jobProfileId: selectedJobProfiles.length > 0 ? selectedJobProfiles : undefined,
     });
-
 
     const { mutateAsync: assignUsers, isPending: isAssigning } = useUpdateAssignedUsersMutation();
     const { mutateAsync: removeUser, isPending: isRemoving } = useRemoveAssignedUserMutation();
@@ -75,8 +73,8 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData ,refetch
         }
     };
 
-    const handleJobProfileChange = (option: OptionType | null) => {
-        setSelectedJobProfile(option?.value as string || null);
+    const handleJobProfileChange = (options: OptionType[] | null) => {
+        setSelectedJobProfiles(options ? options.map(opt => opt.value as string) : []);
     };
 
     const handleAssignedUsers = async () => {
@@ -84,9 +82,9 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData ,refetch
             try {
                 await assignUsers({ id: teamId, assignedUsers: selectedUsers });
                 setSelectedUsers([]);
-                setIsOpen?.(false);
                 refetch?.();
-                refetchTodo?.();
+                refetchTodos?.();
+                setIsOpen?.(false);
             } catch (error) {
                 console.error('Error updating assigned users:', error);
             }
@@ -95,9 +93,9 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData ,refetch
 
     const handleRemoveUser = async (userId: string) => {
         try {
-            await removeUser({ id: teamId, userId })
+            await removeUser({ id: teamId, userId });
             refetch?.();
-            refetchTodo?.();
+            refetchTodos?.();
         } catch (error) {
             console.error('Failed to remove user', error);
         }
@@ -117,11 +115,11 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData ,refetch
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 20, opacity: 0 }}
                         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                        className="w-full max-w-xl bg-white rounded shadow-xl min-h-[400px] max-h-[85vh] flex flex-col overflow-hidden"
+                        className="w-full max-w-2xl bg-white rounded shadow-xl min-h-[400px] max-h-[85vh] flex flex-col overflow-hidden"
                     >
                         <AssignUsersHeader
                             title="Assign To"
-                            onClose={() => setIsOpen?.(false)}
+                            onClose={() => {setIsOpen?.(false)}}
                         />
 
                         <div className="p-6 pb-0">
@@ -135,7 +133,7 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData ,refetch
                                 searchQuery={searchQuery}
                                 onSearchChange={setSearchQuery}
                                 jobProfileOptions={jobProfileOptions}
-                                selectedJobProfile={selectedJobProfile}
+                                selectedJobProfiles={selectedJobProfiles}
                                 onJobProfileChange={handleJobProfileChange}
                                 isPending={isPending}
                             />
@@ -148,7 +146,7 @@ const AssignUsers = ({ teamId, isOpen, setIsOpen, refetch, assignedData ,refetch
                                     onChange={handleSelectAll}
                                     className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                                 />
-                                <label htmlFor="select-all" className="ml-2 text-sm text-gray-700">
+                                <label htmlFor="select-all" className="ml-2 text-xs text-gray-700">
                                     Select All
                                 </label>
                             </div>

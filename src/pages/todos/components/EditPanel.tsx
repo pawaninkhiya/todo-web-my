@@ -41,10 +41,10 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
 
     // Initialize state with initial data
     useEffect(() => {
-        setTitle(initialEditData.title);
-        setIsImportant(initialEditData.isImportant);
-        setStatus(initialEditData.status);
-        prevTitleRef.current = initialEditData.title;
+        setTitle(initialEditData?.title);
+        setIsImportant(initialEditData?.isImportant);
+        setStatus(initialEditData?.status);
+        prevTitleRef.current = initialEditData?.title;
     }, [initialEditData]);
 
     // Sound
@@ -211,8 +211,6 @@ export const EditPanel = memo(({ isOpen, setIsOpen, editData: initialEditData, r
                             initialEditData={initialEditData}
                         />
                     </div>
-
-
                     <OtherDetail initialEditData={initialEditData} refetch={refetch} />
                     <AssignTo todo={initialEditData} refetch={refetch} handleClose={handleClose} />
                     <FileUpload editData={initialEditData} refetch={refetch} />

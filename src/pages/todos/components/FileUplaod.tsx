@@ -13,10 +13,10 @@ interface FileUploadProps {
 export const FileUpload = ({ editData, refetch }: FileUploadProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [isUploading, setIsUploading] = useState(false);
-    const { mutateAsync: updateTodoAsync } = useUpdateTodoMutation(editData._id);
+    const { mutateAsync: updateTodoAsync } = useUpdateTodoMutation(editData?._id);
 
 
-    const currentFiles = editData.files || [];
+    const currentFiles = editData?.files || [];
 
     const handleImageUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) return;

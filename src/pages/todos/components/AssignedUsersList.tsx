@@ -17,7 +17,7 @@ export const AssignedUsersList = ({ users, onRemoveUser, isRemoving }: AssignedU
 
     return (
         <div className="mb-4">
-            <h4 className="text-sm font-medium text-gray-800 mb-2">Assigned Users</h4>
+            <h4 className="text-xs font-medium text-gray-800 mb-2">Assigned Users</h4>
             <ul className="space-y-2 max-h-[140px] overflow-y-auto pr-1 scrollbar-hide">
                 {users.map((user) => (
                     <li

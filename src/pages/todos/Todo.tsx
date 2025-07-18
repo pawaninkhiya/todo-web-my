@@ -149,7 +149,7 @@ const Todo = () => {
                         {
                             teamId && (
                                 <button
-                                    onClick={() => setIsAssignUsers(true)}
+                                    onClick={() => { setIsAssignUsers(true), handleCloseEdit() }}
                                     className="ml-auto mb-4 px-4 py-2 bg-white text-gray-900  hover:bg-gray-50 rounded cursor-pointer flex items-center gap-2 shadow-sm transition-all"
                                 >
                                     <Icons.Users size={18} />
@@ -180,11 +180,26 @@ const Todo = () => {
                                 <>
                                     {data?.FilterTodo?.map((todo: Todo) => {
                                         const assignees = todo?.assignedTo?.length > 0
-                                            ? todo.assignedTo.map(user => ({
-                                                initials: user?.name?.split(" ")?.map(n => n[0])?.join("")?.slice(0, 1)?.toUpperCase(),
-                                                color: "bg-blue-500"
-                                            }))
+                                            ? todo.assignedTo.map(user => {
+                                                const fullName = user?.name || "";
+                                                const parts = fullName.split("/").map(p => p.trim());
+
+                                                // Pick either the first name (index 0) or the second name (index 1)
+                                                const selectedName = parts[0]; // change to parts[1] if you prefer second name
+
+                                                const nameWords = selectedName.split(" ");
+                                                const initials = nameWords.length >= 2
+                                                    ? (nameWords[0][0] + nameWords[nameWords.length - 1][0]).toUpperCase()
+                                                    : (nameWords[0]?.[0]?.toUpperCase() || "--");
+
+                                                return {
+                                                    initials,
+                                                    color: "bg-blue-500"
+                                                };
+                                            })
                                             : [{ initials: "--", color: "bg-gray-400" }];
+
+
 
                                         return (
                                             <TodoCard
@@ -200,11 +215,26 @@ const Todo = () => {
 
                                     {data?.completedTodo?.map((todo: Todo) => {
                                         const assignees = todo?.assignedTo?.length > 0
-                                            ? todo.assignedTo.map(user => ({
-                                                initials: user?.name?.split(" ")?.map(n => n[0])?.join("")?.slice(0, 1)?.toUpperCase(),
-                                                color: "bg-blue-500"
-                                            }))
+                                            ? todo.assignedTo.map(user => {
+                                                const fullName = user?.name || "";
+                                                const parts = fullName.split("/").map(p => p.trim());
+
+                                                // Pick either the first name (index 0) or the second name (index 1)
+                                                const selectedName = parts[0]; // change to parts[1] if you prefer second name
+
+                                                const nameWords = selectedName.split(" ");
+                                                const initials = nameWords.length >= 2
+                                                    ? (nameWords[0][0] + nameWords[nameWords.length - 1][0]).toUpperCase()
+                                                    : (nameWords[0]?.[0]?.toUpperCase() || "--");
+
+                                                return {
+                                                    initials,
+                                                    color: "bg-blue-500"
+                                                };
+                                            })
                                             : [{ initials: "--", color: "bg-gray-400" }];
+
+
 
                                         return (
                                             <TodoCard
@@ -244,7 +274,7 @@ const Todo = () => {
                 )
             )}
 
-            <AssignUsers teamId={teamId ?? ""} isOpen={isAssignUsers} setIsOpen={setIsAssignUsers} refetch={refetchAssignedUsers} assignedData={assignedData} refetchTodo={refetch} />
+            <AssignUsers teamId={teamId ?? ""} isOpen={isAssignUsers} setIsOpen={setIsAssignUsers} refetch={refetchAssignedUsers} assignedData={assignedData} refetchTodos={refetchTodos} />
 
         </div>
     );

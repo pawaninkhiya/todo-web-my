@@ -89,14 +89,15 @@ export const deleteTodo = async (id: string): Promise<any> => {
 };
 
 // 11. Get users for todos
-export const getTodosUsers = async (filters: { name?: string; jobProfileId?: string }): Promise<any> => {
+export const getTodosUsers = async (filters: { name?: string; jobProfileId?: string[] }): Promise<any> => {
     const params: Record<string, string> = {};
     if (filters.name) params.name = filters.name;
-    if (filters.jobProfileId) params.jobProfileId = filters.jobProfileId;
+    if (filters.jobProfileId && filters.jobProfileId.length > 0) {
+        params.jobProfileId = filters.jobProfileId.join(",");
+    }
     const response = await api.get(TODOS_ENDPOINTS.TODOS_USERS, { params });
     return response.data;
 };
-
 // 12. Get all job profiles
 export const getAllJobProfiles = async (): Promise<any> => {
     const response = await api.get(TODOS_ENDPOINTS.GET_ALl_JOBPROFILES);

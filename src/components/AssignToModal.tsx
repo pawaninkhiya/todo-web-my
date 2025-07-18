@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import Select from 'react-select';
 import { Icons } from "@assets/icons";
 import { customSelectStyles } from '@utils/customSelectStyles';
+import { useEffect } from 'react';
 
 interface AssignToModalProps {
     isOpen: boolean;
@@ -37,6 +38,16 @@ const AssignToModal = ({
         }));
         onAssign(assignedUsers);
     };
+    useEffect(() => {
+        const validValues = userOptions.map((opt) => opt.value);
+        const filteredSelected = selectedUsers.filter((user) =>
+            validValues.includes(user.id)
+        );
+
+        if (filteredSelected.length !== selectedUsers.length) {
+            setSelectedUsers(filteredSelected);
+        }
+    }, [userOptions]);
 
     return (
         <motion.div

@@ -10,7 +10,7 @@ const StatusTabs: React.FC<StatusTabsProps> = ({ status, onChange }) => {
 
   return (
     <div className="w-full shadow bg-white rounded p-3 flex gap-3 justify-center">
-      {statusList.map((s) => (
+      {statusList?.map((s) => (
         <button
           key={s}
           onClick={() => onChange(s)}

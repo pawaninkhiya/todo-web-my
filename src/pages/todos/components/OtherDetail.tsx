@@ -13,7 +13,7 @@ interface OtherDetailProps {
 }
 
 const OtherDetail = ({ initialEditData, refetch }: OtherDetailProps) => {
-    const todoId = initialEditData._id;
+    const todoId = initialEditData?._id;
     const { mutateAsync: updateTodoAsync } = useUpdateTodoMutation(todoId);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [dueDate, setDueDate] = useState<string>("");
@@ -21,8 +21,8 @@ const OtherDetail = ({ initialEditData, refetch }: OtherDetailProps) => {
     const today = format(new Date(), 'yyyy-MM-dd');
     const { textareaRef } = useAutoResizeTextarea(note);
     useEffect(() => {
-        setDueDate(initialEditData.dueDate || "");
-        setNote(initialEditData.note || "");
+        setDueDate(initialEditData?.dueDate || "");
+        setNote(initialEditData?.note || "");
     }, [initialEditData]);
 
 

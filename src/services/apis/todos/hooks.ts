@@ -142,7 +142,7 @@ export const useDeleteTodoMutation = () => {
 };
 
 // Get Users for Todos
-export const useGetTodosUsersQuery = (filters: { name?: string; jobProfileId?: string }) => {
+export const useGetTodosUsersQuery = (filters: { name?: string; jobProfileId?: string[] }) => {
     return useQuery({
         queryKey: ["todosUsers", filters],
         queryFn: () => getTodosUsers(filters)

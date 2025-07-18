@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState } from 'react';
 import { useAuth } from "@contexts/AuthProvider";
 import type { Todo } from "@interfaces/todosTypes";
 import { useUpdateTodoMutation } from "@services/apis/todos/hooks"
@@ -37,7 +37,7 @@ const AssignTo = ({ todo, refetch, handleClose }: AssignToProps) => {
     const { user } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [selectedUsers, setSelectedUsers] = useState<UserOption[]>(
-        todo.assignedTo?.map(user => ({
+        todo?.assignedTo?.map(user => ({
             id: user.id,
             name: user.name,
             value: user.id,
@@ -45,7 +45,7 @@ const AssignTo = ({ todo, refetch, handleClose }: AssignToProps) => {
         })) || []
     );
 
-    const todoId = todo._id;
+    const todoId = todo?._id;
     const { mutate: updateTodo, isPending } = useUpdateTodoMutation(todoId);
 
     const userOptions: UserDropdownItem[] = [
@@ -73,7 +73,6 @@ const AssignTo = ({ todo, refetch, handleClose }: AssignToProps) => {
             }
         });
     };
-
     return (
         <>
             <button
