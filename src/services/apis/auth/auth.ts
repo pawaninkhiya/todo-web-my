@@ -10,7 +10,7 @@ interface LoginPayloadRaw {
 
 interface LoginPayload {
     email?: string;
-    contactNumber?: | number;
+    phone?: | number;
     password: string;
     fcmToken: string,
 }
@@ -20,7 +20,7 @@ export const loginUser = async ({identifier,password,fcmToken}: LoginPayloadRaw)
     const payload: LoginPayload = {
         ...(isEmail
             ? { email: identifier }
-            : { contactNumber: Number(identifier.replace(/\D/g, "")) } 
+            : { phone: Number(identifier.replace(/\D/g, "")) } 
         ),
         password,
         fcmToken
