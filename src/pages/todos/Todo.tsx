@@ -218,9 +218,7 @@ const Todo = () => {
                                             ? todo.assignedTo.map(user => {
                                                 const fullName = user?.name || "";
                                                 const parts = fullName.split("/").map(p => p.trim());
-
-                                                // Pick either the first name (index 0) or the second name (index 1)
-                                                const selectedName = parts[0]; // change to parts[1] if you prefer second name
+                                                const selectedName = parts[0]; 
 
                                                 const nameWords = selectedName.split(" ");
                                                 const initials = nameWords.length >= 2

@@ -1,5 +1,6 @@
 // AssignedUsersList.tsx
 import { Icons } from '@assets/icons';
+import { useState, useMemo } from 'react';
 
 interface User {
     _id: string;
@@ -13,13 +14,33 @@ interface AssignedUsersListProps {
 }
 
 export const AssignedUsersList = ({ users, onRemoveUser, isRemoving }: AssignedUsersListProps) => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredUsers = useMemo(() => {
+        return users.filter(user =>
+            user.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [users, searchQuery]);
+
     if (users.length === 0) return null;
 
     return (
         <div className="mb-4">
-            <h4 className="text-xs font-medium text-gray-800 mb-2">Assigned Users</h4>
+                <div className="relative mb-2">
+                    <input
+                        type="text"
+                        placeholder="Search assign users..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full h-[42px] rounded-md border border-gray-300 bg-[#F9FAFB] px-3 text-[12px] text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 pl-10"
+                    />
+                    <Icons.Search
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        size={14}
+                    />
+                </div>
             <ul className="space-y-2 max-h-[140px] overflow-y-auto pr-1 scrollbar-hide">
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                     <li
                         key={user._id}
                         className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded"
@@ -39,6 +60,9 @@ export const AssignedUsersList = ({ users, onRemoveUser, isRemoving }: AssignedU
                         </button>
                     </li>
                 ))}
+                {filteredUsers.length === 0 && (
+                    <li className="text-xs text-gray-500 text-center">No users found</li>
+                )}
             </ul>
         </div>
     );

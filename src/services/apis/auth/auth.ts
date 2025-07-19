@@ -10,21 +10,26 @@ interface LoginPayloadRaw {
 
 interface LoginPayload {
     email?: string;
-    contactNumber?: string;
+    contactNumber?: | number;
     password: string;
     fcmToken: string,
 }
 
-export const loginUser = async ({ identifier, password, fcmToken }: LoginPayloadRaw): Promise<LoginResponse> => {
+export const loginUser = async ({identifier,password,fcmToken}: LoginPayloadRaw): Promise<LoginResponse> => {
     const isEmail = identifier.includes("@");
     const payload: LoginPayload = {
-        ...(isEmail ? { email: identifier } : { contactNumber: identifier }),
+        ...(isEmail
+            ? { email: identifier }
+            : { contactNumber: Number(identifier.replace(/\D/g, "")) } 
+        ),
         password,
         fcmToken
     };
+
     const response = await api.post(AUTH_ENDPOINTS.LOGIN, payload);
     return response.data;
 };
+
 
 export const logoutUser = async (): Promise<any> => {
     const response = await api.get(AUTH_ENDPOINTS.LOGOUT);
