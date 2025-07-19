@@ -1,17 +1,15 @@
 import { api } from "@services/apiClient";
 import { KRA_ENDPOINTS } from "@services/basePaths";
 
-interface GetAllKRAParams {
-    date?: string | undefined;
-}
 
-export const getAllKRA = async ({ date }: GetAllKRAParams): Promise<any> => {
+export const getAllKRA = async (filters: { search: string; assignedUserId: string }): Promise<any> => {
     const params: Record<string, string> = {};
-
-    if (date) {
-        params.date = date || ""
+    if (filters.search) {
+        params.search = filters.search;
     }
-
+    if (filters.assignedUserId) {
+        params.userId = filters.assignedUserId;
+    }
     const response = await api.get(KRA_ENDPOINTS.GET_ALL_KRA, {
         params,
     });

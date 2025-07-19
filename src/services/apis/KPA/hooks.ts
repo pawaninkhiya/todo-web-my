@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createKRA, deleteKRA, getAllKRA, getKRAById, updateKRA } from "./Kra";
 
-export const useGetAllKRAQuery = ({ date }: { date: string | undefined }) => {
+export const useGetAllKRAQuery = (filters: { search: string; assignedUserId: string }) => {
     return useQuery({
-        queryKey: ["KRAs", date || "all"],
-        queryFn: () => getAllKRA({ date }), 
+        queryKey: ["KRAs", filters],
+        queryFn: () => getAllKRA(filters),
     });
 };
 export const useCreateKRAMutation = () => {

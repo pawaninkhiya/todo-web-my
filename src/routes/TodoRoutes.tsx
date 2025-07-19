@@ -12,9 +12,7 @@ const AppRoutes = () => {
     const Todo = lazy(() => import("@pages/todos/Todo"));
     const Ticket = lazy(() => import("@pages/tickets/Ticket"));
     const TicketDetail = lazy(() => import("@pages/tickets/TicketDetail"));
-    // const KpaList = lazy(() => import("@pages/kpa/KpaList"));
-    // const KpaDetail = lazy(() => import("@pages/kpa/KpaDetail"));
-    const KraCreate = lazy(() => import("@pages/kpa/KraCreate"));
+    const KraCreate = lazy(() => import("@pages/kra/KraCreate"));
 
     return (
         <Routes>
@@ -47,15 +45,7 @@ const AppRoutes = () => {
                     }
                 />
 
-                {/* KPA Routes */}
-                {/* <Route
-                    path="/kpa"
-                    element={
-                        <Suspense fallback={<PageLoader message="Loading KPAs..." />}>
-                            <KpaList />
-                        </Suspense>
-                    }
-                /> */}
+                {/* KRA Routes */}
                 <Route
                     path="/kra/create"
                     element={
@@ -64,14 +54,6 @@ const AppRoutes = () => {
                         </Suspense>
                     }
                 />
-                {/* <Route
-                    path="/kpa/:id"
-                    element={
-                        <Suspense fallback={<PageLoader message="Loading KPA Details..." />}>
-                            <KpaDetail />
-                        </Suspense>
-                    }
-                /> */}
             </Route>
 
             {/* Public Routes */}
