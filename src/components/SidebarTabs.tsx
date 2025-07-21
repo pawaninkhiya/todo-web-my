@@ -1,7 +1,7 @@
 import { Icons } from "@assets/icons";
 import { useAuth } from "@contexts/AuthProvider";
+import useSocketRefresh from "@hooks/useSocketRefresh";
 import { useGetTodoCountsQuery } from "@services/apis/todos/hooks";
-import { useEffect } from "react";
 
 interface SidebarTabsProps {
     isMobile: boolean;
@@ -13,21 +13,18 @@ interface SidebarTabsProps {
 }
 
 const SidebarTabs = ({ isMobile, isDesktop, navigate, toggleSidebar }: SidebarTabsProps) => {
-    const { socket } = useAuth();
+    const { socket, user } = useAuth();
     const { data: counts, refetch: refetchTodosCounts } = useGetTodoCountsQuery();
 
-    useEffect(() => {
-        if (!socket) return;
-        const handleTodoCountsRefresh = () => {
-            refetchTodosCounts();
-        };
+    useSocketRefresh({
+        socket,
+        refetch: refetchTodosCounts,
+        eventName: "refresh_todos",
+        shouldRefetch: (data) => {
+            return data?.excludedUserId !== user?._id;
+        }
+    });
 
-        socket.on('refresh_todos', handleTodoCountsRefresh);
-
-        return () => {
-            socket.off('refresh_todos', handleTodoCountsRefresh);
-        };
-    }, [socket, refetchTodosCounts]);
     const tabs = [
         {
             name: "Today's work",

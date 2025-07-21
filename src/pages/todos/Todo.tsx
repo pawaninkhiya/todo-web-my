@@ -15,8 +15,9 @@ import { motion } from "framer-motion"
 import { EditPanelSkeleton } from "@components/skeletons/EditPanelSkeleton";
 import AssignUsers from "./components/AssignUsers";
 import { useGetAssignedUsersQuery } from "@services/apis/teams/hooks";
+import useSocketRefresh from "@hooks/useSocketRefresh";
 const Todo = () => {
-    const { search, socket } = useAuth();
+    const { search, socket ,user} = useAuth();
     const debounceSearch = useDebounceValue(search, 500);
     const { reward: completeReward } = useReward('complete-reward', 'confetti', {
         angle: 90,
@@ -47,25 +48,15 @@ const Todo = () => {
     };
 
 
-    useEffect(() => {
-        if (!socket) return;
-        if (socket.connected) {
-            console.log(' Socket is already connected:', socket.id);
-        } else {
-            socket.once('connect', () => {
-                console.log('🔌 Socket connected:', socket.id);
-            });
-        }
-        const handleTodoRefresh = () => {
-            refetchTodos();
-        };
-
-        socket.on('refresh_todos', handleTodoRefresh);
-
-        return () => {
-            socket.off('refresh_todos', handleTodoRefresh);
-        };
-    }, [socket, refetchTodos]);
+     useSocketRefresh({ 
+        socket, 
+        refetch: refetchTodos,
+        eventName: "refresh_todos",
+        shouldRefetch: (data) => {
+            return data?.excludedUserId !== user?._id;
+      }
+      
+    });
 
     useEffect(() => {
         setIsEditing(false);
@@ -183,9 +174,7 @@ const Todo = () => {
                                             ? todo.assignedTo.map(user => {
                                                 const fullName = user?.name || "";
                                                 const parts = fullName.split("/").map(p => p.trim());
-
-                                                // Pick either the first name (index 0) or the second name (index 1)
-                                                const selectedName = parts[0]; // change to parts[1] if you prefer second name
+                                                const selectedName = parts[0];
 
                                                 const nameWords = selectedName.split(" ");
                                                 const initials = nameWords.length >= 2
@@ -218,7 +207,7 @@ const Todo = () => {
                                             ? todo.assignedTo.map(user => {
                                                 const fullName = user?.name || "";
                                                 const parts = fullName.split("/").map(p => p.trim());
-                                                const selectedName = parts[0]; 
+                                                const selectedName = parts[0];
 
                                                 const nameWords = selectedName.split(" ");
                                                 const initials = nameWords.length >= 2
