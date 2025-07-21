@@ -20,6 +20,7 @@ export interface GetTodosParams {
     teamId?: string;
     teamFilter?: string;
     search?: string;
+    type?:string
 }
 
 //  Get All Todos

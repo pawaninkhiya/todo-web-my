@@ -14,8 +14,14 @@ interface AuthContextType {
         error: Error | null;
     };
     logout: () => Promise<void>;
-    search: string;
-    setSearch: React.Dispatch<React.SetStateAction<string>>;
+    searchParams: {
+        search: string;
+        type: string;
+    };
+    setSearchParams: React.Dispatch<React.SetStateAction<{
+        search: string;
+        type: string;
+    }>>;
     socket: Socket | null,
     setSocket: React.Dispatch<React.SetStateAction<Socket | null>>;
     fcmToken: string | null,
@@ -27,7 +33,11 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [fcmToken, setFcmToken] = useState<string | null>(null);
     const [socket, setSocket] = useState<Socket | null>(null);
-    const [search, setSearch] = useState<string>("");
+    const [searchParams, setSearchParams] = useState<{ search: string; type: string }>({
+        search: "",
+        type: "name"
+    });
+
     const [user, setUser] = useState<null | UserData>(null);
     const navigate = useNavigate();
 
@@ -91,8 +101,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             error: loginMutation.error ?? null,
         },
         logout: () => logoutMutation.mutateAsync(),
-        search,
-        setSearch,
+        searchParams,
+        setSearchParams,
         socket,
         setSocket,
         fcmToken,
@@ -104,8 +114,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         loginMutation.isPending,
         loginMutation.error,
         logoutMutation.mutateAsync,
-        search,
-        setSearch,
+        searchParams,
+        setSearchParams,
         socket,
         setSocket,
         fcmToken,

@@ -16,14 +16,17 @@ interface GetTodosParams {
 
 export const getAllTodos = async (params: GetTodosParams): Promise<TodoResponse> => {
     const filteredParams = Object.fromEntries(
-        Object.entries(params).filter(([_, value]) =>
-            value !== undefined && value !== "" && value !== null
+        Object.entries(params).filter(([key, value]) =>
+            key === "type" || (value !== undefined && value !== "" && value !== null)
         )
     );
 
-    const response = await api.get(TODOS_ENDPOINTS.GET_ALL_TODOS, { params: filteredParams });
+    const response = await api.get(TODOS_ENDPOINTS.GET_ALL_TODOS, {
+        params: filteredParams,
+    });
     return response.data;
 };
+
 
 // 2. Create a todo
 export const createTodo = async (payload: any): Promise<any> => {

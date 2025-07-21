@@ -17,8 +17,8 @@ import AssignUsers from "./components/AssignUsers";
 import { useGetAssignedUsersQuery } from "@services/apis/teams/hooks";
 import useSocketRefresh from "@hooks/useSocketRefresh";
 const Todo = () => {
-    const { search, socket ,user} = useAuth();
-    const debounceSearch = useDebounceValue(search, 500);
+    const { searchParams, socket ,user} = useAuth();
+    const debounceSearch = useDebounceValue(searchParams.search, 500);
     const { reward: completeReward } = useReward('complete-reward', 'confetti', {
         angle: 90,
         position: 'absolute',
@@ -37,7 +37,8 @@ const Todo = () => {
     const { data, isLoading: isTodosLoading, refetch: refetchTodos } = useGetAllTodosQuery({
         filter: filter,
         teamId: teamId,
-        search: debounceSearch || ""
+        search: debounceSearch || "",
+        type: searchParams.type || "name"
     });
     const { data: assignedData, refetch: refetchAssignedUsers } = useGetAssignedUsersQuery(teamId);
     const [isAssignUsers, setIsAssignUsers] = useState<boolean>(false);

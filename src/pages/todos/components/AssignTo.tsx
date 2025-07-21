@@ -92,7 +92,7 @@ const AssignTo = ({ todo, refetch, handleClose }: AssignToProps) => {
                 <div className="flex items-center justify-start gap-2 text-xs text-gray-700">
                     <Icons.UserPlus fontSize={16} />
                     <span>Assign To</span>
-                    {todo.assignedTo.length > 0 && (
+                    {todo?.assignedTo?.length > 0 && (
                         <span className="ml-2 text-xs text-gray-500">
                             ({todo.assignedTo.length} assigned)
                         </span>
